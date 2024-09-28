@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GradeMaster</string>
+    <string name="log_in_with_email">Log in with email</string>
+    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="privacyTerms"><![CDATA[By continuing, you agree to our privacy policy & terms of use]]></string>
+    <string name="version">v7.0.4 (194)</string>
+</resources>
