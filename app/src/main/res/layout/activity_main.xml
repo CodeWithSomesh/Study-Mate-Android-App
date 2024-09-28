@@ -4,96 +4,212 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0F7FA">
+    android:background="#134E4A">
+
+    <!-- Welcome Text -->
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/border_background"
+        android:contentDescription="Welcome Message"
+        android:fontFamily="@font/inter_18pt_semibold"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp"
+        android:padding="16dp"
+        android:text="@string/welcomeMessage"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintOverlap" />
 
 
     <ImageView
-        android:id="@+id/appIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/app_icon"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/appLogo"
+        android:layout_width="385dp"
+        android:layout_height="303dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/app_logo"
+        app:layout_constraintBottom_toBottomOf="welcome_text"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/getStartedText"
-        android:layout_width="wrap_content"
+        android:id="@+id/promoMessage"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Get Started"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/appIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/continueWithText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Continue with..."
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="-45dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/inter_18pt_semibold"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:text="@string/promoMessage"
+        android:textColor="@android:color/white"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/getStartedText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appLogo" />
 
+    <LinearLayout
+        android:id="@+id/feature_icons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/promoMessage">
+
+        <!-- Schedule Icon -->
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/black_circular_background"
+            android:src="@drawable/calendar_icon">
+        </ImageView>
+
+        <!-- Reminders Icon -->
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/black_circular_background"
+            android:src="@drawable/bell_icon" />
+
+        <!-- Notes Icon -->
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/black_circular_background"
+            android:src="@drawable/book_icon" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/iconNames"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feature_icons">
+
+        <TextView
+            android:id="@+id/scheduleIcon"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:fontFamily="@font/inter_18pt_semibold"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/scheduleIcon"
+            android:textColor="@android:color/white"
+            android:textSize="13sp">
+
+        <TextView
+            android:id="@+id/reminderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_18pt_semibold"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/reminderIcon"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:layout_marginStart="34dp">
+
+        <TextView
+            android:id="@+id/notesIcon"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_18pt_semibold"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/notesIcon"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:layout_marginStart="34dp">
+
+
+    </LinearLayout>
 
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/log_in_with_email"
-        android:textColor="#000000"
-        app:backgroundTint="#00FFFF"
-        app:cornerRadius="8dp"
-        app:layout_constraintTop_toBottomOf="@id/continueWithText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/inter_18pt_semibold"
+        android:padding="14dp"
+        android:text="@string/log_in_with_email"
+        android:textColor="#FFF"
+        android:textSize="18sp"
+        app:backgroundTint="#14B8A6"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feature_icons"
+        tools:ignore="VisualLintButtonSize" />
 
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/sign_up_with_email"
-        android:backgroundTint="#0000FF"
-        app:cornerRadius="8dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#000"
+        android:fontFamily="@font/inter_18pt_semibold"
+        android:padding="14dp"
+        android:text="@string/sign_up_with_email"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
+        tools:ignore="VisualLintButtonSize" />
 
     <TextView
         android:id="@+id/termsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/privacyTerms"
-        android:textSize="12sp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/privacyTerms"
+        android:textColor="#FFFFFF"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter_18pt_semibold"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signUpButton" />
 
-    <TextView
-        android:id="@+id/versionText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/version"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@id/termsText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="8dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/versionText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/version"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textSize="10sp"-->
+<!--        android:fontFamily="@font/inter_18pt_semibold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

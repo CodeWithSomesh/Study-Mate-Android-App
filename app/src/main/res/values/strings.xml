@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">GradeMaster</string>
-    <string name="log_in_with_email">Log in with email</string>
-    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="log_in_with_email">Log in with Email</string>
+    <string name="sign_up_with_email">Sign up with Email</string>
     <string name="privacyTerms"><![CDATA[By continuing, you agree to our privacy policy & terms of use]]></string>
-    <string name="version">v7.0.4 (194)</string>
+    <string name="version">v1.0.0 (Built by Someshwar Rao)</string>
+    <string name="welcomeMessage">Welcome back! Access your academic planner and stay organized.</string>
+    <string name="promoMessage">Manage your classes, assignments, exams, grades, events and more with ease</string>
+    <string name="scheduleIcon">Schedule</string>
+    <string name="reminderIcon">Reminders</string>
+    <string name="notesIcon">Notes</string>
 </resources>
