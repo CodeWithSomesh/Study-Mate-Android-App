@@ -1,2 +1,2 @@
-# Grade-Master
+# Study-Mate
 The best student app 
