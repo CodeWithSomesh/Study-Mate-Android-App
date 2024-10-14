@@ -138,7 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     // Register User using the given credentials
