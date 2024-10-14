@@ -9,4 +9,11 @@
     <string name="scheduleIcon">Schedule</string>
     <string name="reminderIcon">Reminders</string>
     <string name="notesIcon">Notes</string>
+    <string name="createAccountText">Create Account</string>
+    <string name="signUpButtonText">Sign Up</string>
+    <string name="loginPageRedirectionText">Already have an account? Log in</string>
+    <string name="welcomeText">Welcome Back</string>
+    <string name="logInButtonText">Log In</string>
+    <string name="registerPageRedirectionText">Don\'t have an account? Sign Up</string>
+    <string name="forgotPasswordText">Forgot Password?</string>
 </resources>
