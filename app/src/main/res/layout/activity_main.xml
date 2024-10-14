@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/border_background"
         android:contentDescription="Welcome Message"
@@ -33,9 +34,9 @@
         android:id="@+id/appLogo"
         android:layout_width="385dp"
         android:layout_height="303dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="-270dp"
         android:src="@drawable/app_logo"
-        app:layout_constraintBottom_toBottomOf="welcome_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,10 +50,10 @@
         android:layout_marginEnd="32dp"
         android:fontFamily="@font/inter_18pt_semibold"
         android:gravity="center"
-        android:lineSpacingExtra="3dp"
+        android:lineSpacingExtra="5dp"
         android:text="@string/promoMessage"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appLogo" />
@@ -70,24 +71,24 @@
 
         <!-- Schedule Icon -->
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="@drawable/black_circular_background"
             android:src="@drawable/calendar_icon">
         </ImageView>
 
         <!-- Reminders Icon -->
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_marginStart="40dp"
             android:background="@drawable/black_circular_background"
             android:src="@drawable/bell_icon" />
 
         <!-- Notes Icon -->
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_marginStart="40dp"
             android:background="@drawable/black_circular_background"
             android:src="@drawable/book_icon" />
@@ -115,19 +116,19 @@
             android:lineSpacingExtra="3dp"
             android:text="@string/scheduleIcon"
             android:textColor="@android:color/white"
-            android:textSize="13sp">
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/reminderIcon"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_18pt_semibold"
             android:gravity="center"
             android:lineSpacingExtra="3dp"
             android:text="@string/reminderIcon"
             android:textColor="@android:color/white"
-            android:textSize="13sp"
-            android:layout_marginStart="34dp">
+            android:textSize="12.7sp"
+            android:layout_marginStart="40dp" />
 
         <TextView
             android:id="@+id/notesIcon"
@@ -139,7 +140,7 @@
             android:text="@string/notesIcon"
             android:textColor="@android:color/white"
             android:textSize="13sp"
-            android:layout_marginStart="34dp">
+            android:layout_marginStart="40dp" />
 
 
     </LinearLayout>

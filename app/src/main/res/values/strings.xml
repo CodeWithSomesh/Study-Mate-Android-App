@@ -4,9 +4,16 @@
     <string name="sign_up_with_email">Sign up with Email</string>
     <string name="privacyTerms"><![CDATA[By continuing, you agree to our privacy policy & terms of use]]></string>
     <string name="version">v1.0.0 (Built by Someshwar Rao)</string>
-    <string name="welcomeMessage">Welcome back! Access your academic planner and stay organized.</string>
-    <string name="promoMessage">Manage your classes, assignments, exams, grades, events and more with ease</string>
+    <string name="welcomeMessage">Welcome! Access your academic planner and stay organized.</string>
+    <string name="promoMessage">Manage your classes, assignments, exams, grades and more with ease</string>
     <string name="scheduleIcon">Schedule</string>
     <string name="reminderIcon">Reminders</string>
     <string name="notesIcon">Notes</string>
+    <string name="createAccountText">Create Account</string>
+    <string name="signUpButtonText">Sign Up</string>
+    <string name="loginPageRedirectionText">Already have an account? Log in</string>
+    <string name="welcomeText">Welcome Back</string>
+    <string name="logInButtonText">Log In</string>
+    <string name="registerPageRedirectionText">Don\'t have an account? Sign Up</string>
+    <string name="forgotPasswordText">Forgot Password?</string>
 </resources>

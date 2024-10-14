@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "913242889305",
+    "project_id": "grade-master-14",
+    "storage_bucket": "grade-master-14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913242889305:android:4bbcdf1ac97d8c7e19e548",
+        "android_client_info": {
+          "package_name": "com.example.grademaster"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPloD3nLwTLB3VV7HUNljEcoaq112sPo0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
