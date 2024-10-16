@@ -112,15 +112,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         //Hide and Show Eye Icons while typing Password (Confirm Password EditText)
         eyeIcon2.setImageResource(R.drawable.eye_icon);
-        password.setTransformationMethod(PasswordTransformationMethod.getInstance()); //By default it is set to be hidden
+        confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance()); //By default it is set to be hidden
         eyeIcon2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if (password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
-                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                if (confirmPassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    confirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     eyeIcon2.setImageResource(R.drawable.eye_hide_icon);
                 } else {
-                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     eyeIcon2.setImageResource(R.drawable.eye_icon);
                 }
             }
