@@ -182,19 +182,25 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(RegisterActivity.this, "Account Registered Successfully", Toast.LENGTH_LONG).show();
+                    //Get Instance of the Current User
                     FirebaseUser firebaseUser = auth.getCurrentUser();
+
+                    //Redirect to Home Page after successful registration
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+
+                    //To prevent user from returning to Register Activity when they press the back button after successful registration
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     //Send Verification Email
                     assert firebaseUser != null;
                     firebaseUser.sendEmailVerification();
 
-                    //Redirect to Home Page after successful registration
-                    Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                    //To prevent user from returning to Register Activity when they press the back button after successful registration
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Toast.makeText(RegisterActivity.this, "Account Registered Successfully. You Can Log In Now.", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     finish(); //To close Register Activity
+
+
+
                 } else {
                     try {
                         throw task.getException();

@@ -1,5 +1,6 @@
 package com.example.grademaster;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -144,14 +146,28 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_LONG).show();
+                    //Get Instance of the Current User
+                    FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
                     //Redirect to Home Page after successful registration
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+
                     //To prevent user from returning to Register Activity when they press the back button after successful registration
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish(); //To close Register Activity
+
+                    assert firebaseUser != null;
+                    if (firebaseUser.isEmailVerified()){
+                        Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_LONG).show();
+                        startActivity(intent);
+                        finish(); //To close Register Activity
+                    } else {
+                        firebaseUser.sendEmailVerification();
+                        authProfile.signOut();
+                        showAlertDialog();
+                    }
+
+
+
                 } else {
                     try {
                         throw task.getException();
@@ -168,5 +184,29 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showAlertDialog() {
+        //Setup Alert Builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle("Email Not Verified");
+        builder.setMessage("Please verify your email now. You can't login without email verification.");
+
+        //Open Email Apps when user clicks Continue button
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //To open email app in new window and not within our app
+                startActivity(intent);
+            }
+        });
+
+        //Create the AlertDialog
+        AlertDialog alertDialog = builder.create();
+
+        //Show the AlertDialog
+        alertDialog.show();
     }
 }
