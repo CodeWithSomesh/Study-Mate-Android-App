@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         ImageView backButton = findViewById(R.id.backButton);
         ImageView eyeIcon = findViewById(R.id.eyeIcon);
         Button loginButton = findViewById(R.id.loginButton);
+        TextView forgotPasswordText = findViewById(R.id.forgotPasswordLink);
 
         authProfile = FirebaseAuth.getInstance();
 
@@ -107,6 +108,14 @@ public class LoginActivity extends AppCompatActivity {
                     password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     eyeIcon.setImageResource(R.drawable.eye_icon);
                 }
+            }
+        });
+
+        //Forgot Password Feature
+        forgotPasswordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
             }
         });
 
@@ -208,5 +217,16 @@ public class LoginActivity extends AppCompatActivity {
 
         //Show the AlertDialog
         alertDialog.show();
+    }
+
+    //Check is user is logged in, if they are, then redirect them to the Home Page
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (authProfile.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish(); //To close Register Activity
+        }
     }
 }
