@@ -2,6 +2,8 @@ package com.example.grademaster;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -35,7 +37,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private ImageView backButton;
     private TextView loginTextView;
     private EditText fullName, email, password, confirmPassword;
     private static final String TAG = "RegisterActivity";
@@ -57,7 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.inputPassword);
         confirmPassword = findViewById(R.id.inputConfirmPassword);
         loginTextView = findViewById(R.id.loginText);
-        backButton = findViewById(R.id.backButton);
+        ImageView backButton = findViewById(R.id.backButton);
+        ImageView eyeIcon1 = findViewById(R.id.eyeIcon1);
+        ImageView eyeIcon2 = findViewById(R.id.eyeIcon2);
         Button registerButton = findViewById(R.id.signUpButton);
 
 
@@ -88,6 +91,38 @@ public class RegisterActivity extends AppCompatActivity {
                 // Handle login navigation
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        //Hide and Show Eye Icons while typing Password (Password EditText)
+        eyeIcon1.setImageResource(R.drawable.eye_icon);
+        password.setTransformationMethod(PasswordTransformationMethod.getInstance()); //By default it is set to be hidden
+        eyeIcon1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if (password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    eyeIcon1.setImageResource(R.drawable.eye_hide_icon);
+                } else {
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    eyeIcon1.setImageResource(R.drawable.eye_icon);
+                }
+            }
+        });
+
+        //Hide and Show Eye Icons while typing Password (Confirm Password EditText)
+        eyeIcon2.setImageResource(R.drawable.eye_icon);
+        confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance()); //By default it is set to be hidden
+        eyeIcon2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if (confirmPassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    confirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    eyeIcon2.setImageResource(R.drawable.eye_hide_icon);
+                } else {
+                    confirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    eyeIcon2.setImageResource(R.drawable.eye_icon);
+                }
             }
         });
 
@@ -147,19 +182,25 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(RegisterActivity.this, "Account Registered Successfully", Toast.LENGTH_LONG).show();
+                    //Get Instance of the Current User
                     FirebaseUser firebaseUser = auth.getCurrentUser();
+
+                    //Redirect to Home Page after successful registration
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+
+                    //To prevent user from returning to Register Activity when they press the back button after successful registration
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     //Send Verification Email
                     assert firebaseUser != null;
                     firebaseUser.sendEmailVerification();
 
-                    //Redirect to Home Page after successful registration
-                    Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                    //To prevent user from returning to Register Activity when they press the back button after successful registration
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Toast.makeText(RegisterActivity.this, "Account Registered Successfully. You Can Log In Now.", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     finish(); //To close Register Activity
+
+
+
                 } else {
                     try {
                         throw task.getException();

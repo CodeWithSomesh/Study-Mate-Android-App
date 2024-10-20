@@ -14,6 +14,9 @@
     <string name="loginPageRedirectionText">Already have an account? Log in</string>
     <string name="welcomeText">Welcome Back</string>
     <string name="logInButtonText">Log In</string>
-    <string name="registerPageRedirectionText">Don\'t have an account? Sign Up</string>
+    <string name="registerPageRedirectionText">Do not have an account? Sign Up</string>
     <string name="forgotPasswordText">Forgot Password?</string>
+    <string name="sendResetLinkText">Enter your registered email and we will send you a password reset link.</string>
+    <string name="backToLoginText">Back to Login</string>
+    <string name="resetLinkButtonText">Send password reset link</string>
 </resources>
