@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //Forgot Password Feature
+        //Redirect to Forgot Password Page
         forgotPasswordText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
