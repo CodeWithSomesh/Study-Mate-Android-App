@@ -19,4 +19,5 @@
     <string name="sendResetLinkText">Enter your registered email and we will send you a password reset link.</string>
     <string name="backToLoginText">Back to Login</string>
     <string name="resetLinkButtonText">Send password reset link</string>
+    <string name="addIconText">Add Activity</string>
 </resources>
