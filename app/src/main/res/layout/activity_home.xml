@@ -7,20 +7,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity"
-    android:background="#14B8A6">
+    android:background="@color/black">
 
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"/>
+        android:layout_gravity="top" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:id="@+id/bottomNavbar"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:backgroundTint="#134E4A"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="50dp"
         app:layout_anchorGravity="bottom"
@@ -30,10 +32,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/bottomNavView"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="0dp"
             app:labelVisibilityMode="labeled"
-            android:background="@android:color/transparent"
-            app:menu="@menu/bottom_navbar" />
+            app:menu="@menu/bottom_navbar"
+            app:itemTextColor="@color/bottom_nav_color_selector"
+            app:itemIconTint="@color/bottom_nav_color_selector"
+            android:background="@android:color/transparent"/>
 
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -41,10 +45,12 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#14B8A6"
         android:src="@drawable/baseline_add_24"
         app:layout_anchor="@id/bottomNavbar"
-        android:contentDescription="@string/addIconText"/>
+        android:contentDescription="@string/addIconText"
+        app:tint="@color/white"
+        app:maxImageSize="30dp"/>
 
 
 
