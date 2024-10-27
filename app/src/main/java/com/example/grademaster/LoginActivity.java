@@ -224,6 +224,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        //For temporary, need to remove
+        //authProfile.signOut();
+
         if (authProfile.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish(); //To close Register Activity
