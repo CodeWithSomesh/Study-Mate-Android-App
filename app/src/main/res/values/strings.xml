@@ -22,4 +22,8 @@
     <string name="addIconText">Add Activity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="greetingMessage">Good Afternoon,</string>
+    <string name="username">Someshwar Rao</string>
+    <string name="date">Sun, Oct 27</string>
+    <string name="noActivityMessage">No classes, tasks or exams left for today</string>
 </resources>
