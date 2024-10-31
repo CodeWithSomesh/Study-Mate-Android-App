@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 //import com.example.grademaster.ui.main.SectionsPagerAdapter;
 import com.example.grademaster.databinding.ActivityAddNewTaskBinding;
@@ -29,6 +30,16 @@ public class AddNewTaskActivity extends AppCompatActivity {
         // Initialize TabLayout and ViewPager
         tabLayout = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.view_pager);
+        ImageView backButton = findViewById(R.id.backButton);
+
+        // Handle back button click
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the previous activity using the OnBackPressedDispatcher
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
 
         // Link TabLayout with the ViewPager, so tab selections switch pages in the ViewPager
         tabLayout.setupWithViewPager(viewPager);
