@@ -1,7 +1,9 @@
 package com.example.grademaster;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +15,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavView;
+    private FloatingActionButton addButton;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -30,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         bottomNavView = findViewById(R.id.bottomNavView);
+        addButton = findViewById(R.id.addButton);
 
         replaceFragment(new HomeFragment());
         bottomNavView.setBackground(null);
@@ -50,6 +55,16 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             return true;
+        });
+
+        // Navigate to the Login Activity
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle login navigation
+                Intent intent = new Intent(HomeActivity.this, AddNewTaskActivity.class);
+                startActivity(intent);
+            }
         });
     }
 
