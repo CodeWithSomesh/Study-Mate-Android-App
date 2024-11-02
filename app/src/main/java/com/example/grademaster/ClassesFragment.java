@@ -577,38 +577,34 @@ public class ClassesFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please Enter Your Online Class URL", Toast.LENGTH_LONG).show();
                         onlineURL.setError("Online Class URL is required");
                         onlineURL.requestFocus();
-                    }
-//                    else if (Objects.equals(currentOccurModeText, "Once")){
-//
-//                        if (TextUtils.isEmpty(dateString)) {
-//                            Toast.makeText(getActivity(), "Please Pick Your Class Date", Toast.LENGTH_LONG).show();
-//                            dateLabel.setError("Date is required");
-//                            date.requestFocus();
-//                        } else if (TextUtils.isEmpty(startTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
-//                            dateLabel.setError("Class Start Time is required");
-//                            startTime.requestFocus();
-//                        } else if (TextUtils.isEmpty(endTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
-//                            dateLabel.setError("Class End Time is required");
-//                            endTime.requestFocus();
-//                        }
-//                    }
-                    else if (Objects.equals(currentOccurModeText, "Repeating")){
+                    } else if (Objects.equals(currentOccurModeText, "Repeating")){
                         if (clickedTextViews.isEmpty()) {
                             Toast.makeText(getActivity(), "Please Select The Repeating Days For Your Class", Toast.LENGTH_LONG).show();
                             daysLabel.setError("At least one day is required");
                             daysLabel.requestFocus();
+                        } else {
+                            dateString = "";
+                            roomNumberText = "";
+                            buildingText = "";
+                            // Save Data in DB after performing validation
+                            addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
+                                    lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
+                                    dateString, startTimeString, endTimeString, clickedTextViews,
+                                    userID, userEmail);
                         }
-//                        else if (TextUtils.isEmpty(startTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
-//                            onlineURL.setError("Class Start Time is required");
-//                            onlineURL.requestFocus();
-//                        } else if (TextUtils.isEmpty(endTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
-//                            onlineURL.setError("Class End Time is required");
-//                            onlineURL.requestFocus();
-//                        }
+
+                    } else {
+                        if (Objects.equals(currentOccurModeText, "Once")) {
+                            clickedTextViews.clear();
+                        }
+                        roomNumberText = "";
+                        buildingText = "";
+
+                        // Save Data in DB after performing validation
+                        addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
+                                lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
+                                dateString, startTimeString, endTimeString, clickedTextViews,
+                                userID, userEmail);
                     }
                 } else if (Objects.equals(currentClassModeText, "In Person")){
                     if (TextUtils.isEmpty(moduleNameText)) {
@@ -632,66 +628,77 @@ public class ClassesFragment extends Fragment {
                         lecturerEmail.setError("Lecturer's Email is required");
                         lecturerEmail.requestFocus();
                     }
-//                    else if (Objects.equals(currentOccurModeText, "Once")){
-//
-//                        if (TextUtils.isEmpty(dateString)) {
-//                            Toast.makeText(getActivity(), "Please Pick Your Class Date", Toast.LENGTH_LONG).show();
-//                            dateLabel.setError("Date is required");
-//                            date.requestFocus();
-//                        } else if (TextUtils.isEmpty(startTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
-//                            dateLabel.setError("Class Start Time is required");
-//                            startTime.requestFocus();
-//                        } else if (TextUtils.isEmpty(endTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
-//                            dateLabel.setError("Class End Time is required");
-//                            endTime.requestFocus();
-//                        }
-//                    }
                     else if (Objects.equals(currentOccurModeText, "Repeating")){
                         if (clickedTextViews.isEmpty()) {
                             Toast.makeText(getActivity(), "Please Select The Repeating Days For Your Class", Toast.LENGTH_LONG).show();
                             daysLabel.setError("At least one day is required");
                             daysLabel.requestFocus();
+                        } else {
+                            dateString = "";
+                            onlineClassURLText = "";
+                            // Save Data in DB after performing validation
+                            addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
+                                    lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
+                                    dateString, startTimeString, endTimeString, clickedTextViews,
+                                    userID, userEmail);
                         }
-//                        else if (TextUtils.isEmpty(startTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
-//                            onlineURL.setError("Class Start Time is required");
-//                            onlineURL.requestFocus();
-//                        } else if (TextUtils.isEmpty(endTimeString)) {
-//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
-//                            onlineURL.setError("Class End Time is required");
-//                            onlineURL.requestFocus();
-//                        }
+
+
+                    } else {
+                        if (Objects.equals(currentOccurModeText, "Once")) {
+                            clickedTextViews.clear();
+                        }
+                        onlineClassURLText = "";
+
+                        // Save Data in DB after performing validation
+                        addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
+                                lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
+                                dateString, startTimeString, endTimeString, clickedTextViews,
+                                userID, userEmail);
+
                     }
-                } else {
-                    //Save Data in DB after validation
-                    Classes classes = new Classes(currentClassModeText, moduleNameText, roomNumberText,
-                            buildingText, lecturerNameText, lecturerEmailText, currentOccurModeText,
-                            dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
-                    db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
-                    reference = db.getReference("Users").child(userID).child("Classes"); // Get the reference to the user's sub-collection of classes
-                    // Create a unique ID for the class or use any specific identifier if you have one
-                    String classID = reference.push().getKey();
-                    assert classID != null;
-                    reference.child(classID).setValue(classes).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // Use getActivity() or getContext() to provide a valid context
-                                Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
                 }
 
-
-
-
             }
+
+            private void addClass(String currentClassModeText, String moduleNameText,
+                                  String roomNumberText, String buildingText, String lecturerNameText,
+                                  String lecturerEmailText,String onlineClassURLText, String currentOccurModeText,
+                                  String dateString, String startTimeString, String endTimeString,
+                                  List<String> clickedTextViews, String userID, String userEmail)
+            {
+
+                // Create a Classes object
+                Classes classes = new Classes(currentClassModeText, moduleNameText, roomNumberText,
+                        buildingText, lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
+                        dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
+
+                // Initialize Firebase Database
+                db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
+                reference = db.getReference("Users").child(userID).child("Classes"); // Get the reference to the user's sub-collection of classes
+
+                // Create a unique ID for the class
+                String classID = reference.push().getKey();
+                assert classID != null;
+
+                // Save data to the database
+                reference.child(classID).setValue(classes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Use getActivity() or getContext() to provide a valid context
+                            Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+
         });
+
+
+
 
 
 

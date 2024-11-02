@@ -11,6 +11,7 @@ public class Classes {
     String building;
     String lecturerName;
     String lecturerEmail;
+    String onlineClassURL;
     String isRepeating;
     String date;
     String startTime;
@@ -23,8 +24,9 @@ public class Classes {
     }
 
     public Classes(String classMode, String moduleName, String roomNumber, String building,
-                   String lecturerName, String lecturerEmail, String isRepeating, String date,
-                   String startTime, String endTime, List<String> days, String userID,
+                   String lecturerName, String lecturerEmail, String onlineClassURL,
+                   String isRepeating, String date, String startTime, String endTime,
+                   List<String> days, String userID,
                    String userEmail) {
         this.classMode = classMode;
         this.moduleName = moduleName;
@@ -32,6 +34,7 @@ public class Classes {
         this.building = building;
         this.lecturerName = lecturerName;
         this.lecturerEmail = lecturerEmail;
+        this.onlineClassURL = onlineClassURL;
         this.isRepeating = isRepeating;
         this.date = date;
         this.startTime = startTime;
@@ -87,6 +90,14 @@ public class Classes {
 
     public void setLecturerEmail(String lecturerEmail) {
         this.lecturerEmail = lecturerEmail;
+    }
+
+    public String getOnlineClassURL() {
+        return onlineClassURL;
+    }
+
+    public void setOnlineClassURL(String lecturerEmail) {
+        this.onlineClassURL = onlineClassURL;
     }
 
     public String getIsRepeating() {
