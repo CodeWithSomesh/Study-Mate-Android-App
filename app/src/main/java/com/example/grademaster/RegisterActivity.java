@@ -34,12 +34,16 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView loginTextView;
     private EditText fullName, email, password, confirmPassword;
     private static final String TAG = "RegisterActivity";
+    private FirebaseDatabase db;
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,19 +189,38 @@ public class RegisterActivity extends AppCompatActivity {
                     //Get Instance of the Current User
                     FirebaseUser firebaseUser = auth.getCurrentUser();
 
-                    //Redirect to Home Page after successful registration
+                    //Get User ID & Email
+                    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                    //Redirect to Login Page after successful registration
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
 
                     //To prevent user from returning to Register Activity when they press the back button after successful registration
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    //Send Verification Email
+                    //Add User and Send Verification Email
                     assert firebaseUser != null;
-                    firebaseUser.sendEmailVerification();
+                    Users user = new Users(nameText, emailText, false, passwordText);
+                    db = FirebaseDatabase.getInstance();
+                    reference = db.getReference("Users");
+                    reference.child(userID).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Use getActivity() or getContext() to provide a valid context
+                                Toast.makeText(RegisterActivity.this, "Account Registered Successfully. You Can Log In Now.", Toast.LENGTH_LONG).show();
+                                firebaseUser.sendEmailVerification();
+                                startActivity(intent);
+                                finish(); //To close Register Activity
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Failed to Register User", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
 
-                    Toast.makeText(RegisterActivity.this, "Account Registered Successfully. You Can Log In Now.", Toast.LENGTH_LONG).show();
-                    startActivity(intent);
-                    finish(); //To close Register Activity
+
+
 
 
 

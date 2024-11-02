@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ClassesFragment"
+    android:background="@color/black">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <!-- Wrapping content inside a LinearLayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Select Subject Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mode"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/inPersonButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_18pt_semibold"
+                    android:textSize="18sp"
+                    android:text="In Person"
+                    android:backgroundTint="@color/light_teal"
+                    android:background="@drawable/button_background"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/onlineButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_18pt_semibold"
+                    android:textSize="18sp"
+                    android:text="Online"
+                    android:backgroundTint="#333333"
+                    android:background="@drawable/button_background"
+                    android:textColor="#888888"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+
+            <!-- Enter Module Name Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Module Name *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/inputModuleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="E.g. Android Development"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:layout_marginBottom="32dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="32dp"
+                android:id="@+id/roomBuildingLayout">
+
+                <!-- "Room Number" & "Building" text-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/roomNumberLabel"
+                        android:text="Room Number *"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/buildingLabel"
+                        android:text="Building *"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+                <!-- "Room Number" & "Building" Input Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/inputRoom"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="E.g. LR401"
+                        android:minHeight="48dp"
+                        android:textColorHint="#b0ada4"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:padding="10dp"
+                        android:background="@drawable/bordered_edit_text" />
+
+                    <EditText
+                        android:id="@+id/inputBuilding"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="E.g. Inti/USM"
+                        android:minHeight="48dp"
+                        android:textColorHint="#b0ada4"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:padding="10dp"
+                        android:background="@drawable/bordered_edit_text"
+                        android:layout_marginStart="10dp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Enter Teacher Name Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lecturer's Name *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/inputTeacherName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="E.g. Ms. Karen Khor"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Enter Teacher Name Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lecturer's Email"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/inputTeacherEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="E.g. karenkhor@gmail.com"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Enter Class URL Section -->
+            <TextView
+                android:id="@+id/onlineClassURLLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Online Class URL *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/inputClassURL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Paste URL here"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Select Occurence Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Occurs *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/onceButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_18pt_semibold"
+                    android:textSize="18sp"
+                    android:text="Once"
+                    android:backgroundTint="@color/light_teal"
+                    android:background="@drawable/button_background"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/repeatingButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_18pt_semibold"
+                    android:textSize="18sp"
+                    android:text="Repeating"
+                    android:backgroundTint="#333333"
+                    android:background="@drawable/button_background"
+                    android:textColor="#888888"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+
+            <!-- Select Days Section -->
+            <TextView
+                android:id="@+id/daysLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Days *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/daysLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/mondayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Mon"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888" />
+
+                    <TextView
+                        android:id="@+id/tuesdayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Tue"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888"
+                        android:layout_marginStart="10dp"/>
+
+                    <TextView
+                        android:id="@+id/wednesdayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Wed"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888"
+                        android:layout_marginStart="10dp"/>
+
+                    <TextView
+                        android:id="@+id/thursdayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Thurs"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:id="@+id/fridayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Fri"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888" />
+
+                    <TextView
+                        android:id="@+id/saturdayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Sat"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888"
+                        android:layout_marginStart="10dp"/>
+
+                    <TextView
+                        android:id="@+id/sundayButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/inter_18pt_semibold"
+                        android:textSize="18sp"
+                        android:text="Sun"
+                        android:backgroundTint="#333333"
+                        android:background="@drawable/button_background"
+                        android:textColor="#888888"
+                        android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <!-- Select Date Section -->
+            <TextView
+                android:id="@+id/dateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="6dp"/>
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="DD/MM/YY"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:headerBackground="@color/light_teal"
+                android:foregroundTint="@color/white"
+                android:calendarTextColor="@color/black"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Enter Start Time Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Time *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="6dp"/>
+
+            <TimePicker
+                android:id="@+id/startTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:headerBackground="@color/light_teal"
+                android:layout_marginBottom="32dp"/>
+
+
+            <!-- Enter End Time Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Time *"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="20sp"
+                android:layout_marginBottom="6dp"/>
+
+            <TimePicker
+                android:id="@+id/endTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textColorHint="#b0ada4"
+                android:fontFamily="@font/inter_18pt_semibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:background="@drawable/bordered_edit_text"
+                android:headerBackground="@color/light_teal"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Cancel and Save Class Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/cancelButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_18pt_semibold"
+                    android:textSize="18sp"
+                    android:text="Cancel"
+                    android:backgroundTint="#e53e3e"
+                    android:background="@drawable/button_background"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/saveButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/inter_18pt_semibold"
+                    android:textSize="18sp"
+                    android:text="Save Class"
+                    android:backgroundTint="@color/light_teal"
+                    android:background="@drawable/button_background"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

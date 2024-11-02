@@ -13,6 +13,11 @@
         android:theme="@style/Theme.GradeMaster"
         tools:targetApi="31">
         <activity
+            android:name=".AddNewTaskActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_new_task"
+            android:theme="@style/Theme.GradeMaster.NoActionBar" />
+        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
