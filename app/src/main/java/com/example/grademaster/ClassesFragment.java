@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.core.view.ViewCompat;
 import android.content.res.ColorStateList;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 ///**
@@ -531,20 +533,23 @@ public class ClassesFragment extends Fragment {
                 System.out.println("Current Occur Mode: " + currentOccurModeText);
 
                 // Retrieve and format date
+                String dateString = "";
                 int day = date.getDayOfMonth();
                 int month = date.getMonth() + 1; // Month is 0-based, so add 1
                 int year = date.getYear();
-                String dateString = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+                dateString = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
 
                 // Retrieve and format start time
+                String startTimeString = "";
                 int startHour = startTime.getHour();
                 int startMinute = startTime.getMinute();
-                String startTimeString = String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute);
+                startTimeString = String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute);
 
                 // Retrieve and format end time
+                String endTimeString = "";
                 int endHour = endTime.getHour();
                 int endMinute = endTime.getMinute();
-                String endTimeString = String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute);
+                endTimeString = String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute);
 
                 // Print out the date and time strings to verify
                 System.out.println("Date: " + dateString);
@@ -554,27 +559,136 @@ public class ClassesFragment extends Fragment {
 
                 //Validate All Inputs
 
-
-                //Save Data in DB after validation
-                Classes classes = new Classes(currentClassModeText, moduleNameText, roomNumberText,
-                        buildingText, lecturerNameText, lecturerEmailText, currentOccurModeText,
-                        dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
-                db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
-                reference = db.getReference("Users").child(userID).child("Classes"); // Get the reference to the user's sub-collection of classes
-                // Create a unique ID for the class or use any specific identifier if you have one
-                String classID = reference.push().getKey();
-                assert classID != null;
-                reference.child(classID).setValue(classes).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // Use getActivity() or getContext() to provide a valid context
-                            Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
-                        }
+                //If Class Mode is Online
+                if (Objects.equals(currentClassModeText, "Online")) {
+                    if (TextUtils.isEmpty(moduleNameText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Module Name", Toast.LENGTH_LONG).show();
+                        moduleName.setError("Module Name is required");
+                        moduleName.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerNameText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Lecturer's Name", Toast.LENGTH_LONG).show();
+                        lecturerName.setError("Lecturer's Name is required");
+                        lecturerName.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerEmailText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Lecturer's Email", Toast.LENGTH_LONG).show();
+                        lecturerName.setError("Lecturer's Email is required");
+                        lecturerName.requestFocus();
+                    } else if (TextUtils.isEmpty(onlineClassURLText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Online Class URL", Toast.LENGTH_LONG).show();
+                        onlineURL.setError("Online Class URL is required");
+                        onlineURL.requestFocus();
                     }
-                });
+//                    else if (Objects.equals(currentOccurModeText, "Once")){
+//
+//                        if (TextUtils.isEmpty(dateString)) {
+//                            Toast.makeText(getActivity(), "Please Pick Your Class Date", Toast.LENGTH_LONG).show();
+//                            dateLabel.setError("Date is required");
+//                            date.requestFocus();
+//                        } else if (TextUtils.isEmpty(startTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
+//                            dateLabel.setError("Class Start Time is required");
+//                            startTime.requestFocus();
+//                        } else if (TextUtils.isEmpty(endTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
+//                            dateLabel.setError("Class End Time is required");
+//                            endTime.requestFocus();
+//                        }
+//                    }
+                    else if (Objects.equals(currentOccurModeText, "Repeating")){
+                        if (clickedTextViews.isEmpty()) {
+                            Toast.makeText(getActivity(), "Please Select The Repeating Days For Your Class", Toast.LENGTH_LONG).show();
+                            daysLabel.setError("At least one day is required");
+                            daysLabel.requestFocus();
+                        }
+//                        else if (TextUtils.isEmpty(startTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
+//                            onlineURL.setError("Class Start Time is required");
+//                            onlineURL.requestFocus();
+//                        } else if (TextUtils.isEmpty(endTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
+//                            onlineURL.setError("Class End Time is required");
+//                            onlineURL.requestFocus();
+//                        }
+                    }
+                } else if (Objects.equals(currentClassModeText, "In Person")){
+                    if (TextUtils.isEmpty(moduleNameText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Module Name", Toast.LENGTH_LONG).show();
+                        moduleName.setError("Module Name is required");
+                        moduleName.requestFocus();
+                    } else if (TextUtils.isEmpty(roomNumberText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Room Number", Toast.LENGTH_LONG).show();
+                        roomNum.setError("Room Number is required");
+                        roomNum.requestFocus();
+                    } else if (TextUtils.isEmpty(buildingText)) {
+                        Toast.makeText(getActivity(), "Please Enter The Building", Toast.LENGTH_LONG).show();
+                        building.setError("Building is required");
+                        building.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerNameText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Lecturer's Name", Toast.LENGTH_LONG).show();
+                        lecturerName.setError("Lecturer's Name is required");
+                        lecturerName.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerEmailText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Lecturer's Email", Toast.LENGTH_LONG).show();
+                        lecturerEmail.setError("Lecturer's Email is required");
+                        lecturerEmail.requestFocus();
+                    }
+//                    else if (Objects.equals(currentOccurModeText, "Once")){
+//
+//                        if (TextUtils.isEmpty(dateString)) {
+//                            Toast.makeText(getActivity(), "Please Pick Your Class Date", Toast.LENGTH_LONG).show();
+//                            dateLabel.setError("Date is required");
+//                            date.requestFocus();
+//                        } else if (TextUtils.isEmpty(startTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
+//                            dateLabel.setError("Class Start Time is required");
+//                            startTime.requestFocus();
+//                        } else if (TextUtils.isEmpty(endTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
+//                            dateLabel.setError("Class End Time is required");
+//                            endTime.requestFocus();
+//                        }
+//                    }
+                    else if (Objects.equals(currentOccurModeText, "Repeating")){
+                        if (clickedTextViews.isEmpty()) {
+                            Toast.makeText(getActivity(), "Please Select The Repeating Days For Your Class", Toast.LENGTH_LONG).show();
+                            daysLabel.setError("At least one day is required");
+                            daysLabel.requestFocus();
+                        }
+//                        else if (TextUtils.isEmpty(startTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class Start Time", Toast.LENGTH_LONG).show();
+//                            onlineURL.setError("Class Start Time is required");
+//                            onlineURL.requestFocus();
+//                        } else if (TextUtils.isEmpty(endTimeString)) {
+//                            Toast.makeText(getActivity(), "Please Select Your Class End Time", Toast.LENGTH_LONG).show();
+//                            onlineURL.setError("Class End Time is required");
+//                            onlineURL.requestFocus();
+//                        }
+                    }
+                } else {
+                    //Save Data in DB after validation
+                    Classes classes = new Classes(currentClassModeText, moduleNameText, roomNumberText,
+                            buildingText, lecturerNameText, lecturerEmailText, currentOccurModeText,
+                            dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
+                    db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
+                    reference = db.getReference("Users").child(userID).child("Classes"); // Get the reference to the user's sub-collection of classes
+                    // Create a unique ID for the class or use any specific identifier if you have one
+                    String classID = reference.push().getKey();
+                    assert classID != null;
+                    reference.child(classID).setValue(classes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // Use getActivity() or getContext() to provide a valid context
+                                Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+
+
+
 
             }
         });
