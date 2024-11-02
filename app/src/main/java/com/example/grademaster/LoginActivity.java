@@ -36,6 +36,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerTextView;
     private FirebaseAuth authProfile;
     private static final String TAG = "LoginActivity";
+    private FirebaseDatabase db;
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +170,14 @@ public class LoginActivity extends AppCompatActivity {
 
                     assert firebaseUser != null;
                     if (firebaseUser.isEmailVerified()){
+                        //Get User ID
+                        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        db = FirebaseDatabase.getInstance();
+                        reference = db.getReference("Users").child(userID);
+                        // Update the `isEmailVerified` field to true
+                        reference.child("isEmailVerified").setValue(true);
+
                         Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_LONG).show();
                         startActivity(intent);
                         finish(); //To close Register Activity

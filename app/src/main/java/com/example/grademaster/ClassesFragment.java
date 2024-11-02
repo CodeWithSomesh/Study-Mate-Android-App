@@ -3,6 +3,7 @@ package com.example.grademaster;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.view.ViewCompat;
@@ -17,10 +18,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 ///**
@@ -33,10 +42,12 @@ public class ClassesFragment extends Fragment {
     private EditText moduleName, roomNum, building, lecturerName, lecturerEmail, onlineURL;
     private TextView inPersonButton, onlineButton, onceButton, repeatingButton, mondayButton,
             tuesdayButton, wednesdayButton, thursdayButton, fridayButton, saturdayButton,
-            sundayButton, cancelButton, saveButton, onlineClassURLLabel, daysLabel;
+            sundayButton, cancelButton, saveButton, onlineClassURLLabel, daysLabel, dateLabel;
     private DatePicker date;
     private TimePicker startTime, endTime;
     private LinearLayout roomBuildingLayout, daysLayout;
+    private FirebaseDatabase db;
+    private DatabaseReference reference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,6 +80,7 @@ public class ClassesFragment extends Fragment {
         saveButton = view.findViewById(R.id.saveButton);
         onlineClassURLLabel = view.findViewById(R.id.onlineClassURLLabel);
         daysLabel = view.findViewById(R.id.daysLabel);
+        dateLabel = view.findViewById(R.id.dateLabel);
 
         //Date Picker & Time Picker
         date = view.findViewById(R.id.datePicker);
@@ -96,10 +108,19 @@ public class ClassesFragment extends Fragment {
             }
         });
 
-         // Handle Online button click
+        // Create an empty list to hold clicked Days TextView values
+        List<String> currentClassMode = new ArrayList<>();
+        currentClassMode.add(inPersonButton.getText().toString());
+
+        // Handle Online button click
         onlineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //currentClassMode.remove(inPersonButton.getText().toString());
+                currentClassMode.clear();
+                currentClassMode.add(onlineButton.getText().toString());
+                System.out.println(currentClassMode);
 
                 // Online Button need to Switch to Light Teal background with White text color
                 ViewCompat.setBackgroundTintList(
@@ -131,6 +152,14 @@ public class ClassesFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if (currentClassMode.contains(onlineButton.getText().toString())) {
+
+                    //currentClassMode.remove(onlineButton.getText().toString());
+                    currentClassMode.clear();
+                    currentClassMode.add(inPersonButton.getText().toString());
+                    System.out.println(currentClassMode);
+                }
+
                 // In Person Button need to Switch to Light Teal background with White text color
                 ViewCompat.setBackgroundTintList(
                         inPersonButton,
@@ -156,10 +185,22 @@ public class ClassesFragment extends Fragment {
             }
         });
 
+        // Create an empty list to hold clicked Days TextView values
+        List<String> currentOccurMode = new ArrayList<>();
+        currentOccurMode.add(onceButton.getText().toString());
+
         // Handle Once button click
         onceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (currentOccurMode.contains(repeatingButton.getText().toString())) {
+
+                    //currentOccurMode.remove(repeatingButton.getText().toString());
+                    currentOccurMode.clear();
+                    currentOccurMode.add(onceButton.getText().toString());
+                    System.out.println(currentOccurMode);
+                }
 
                 //Once Button need to Switch to Light Teal background with White text color
                 ViewCompat.setBackgroundTintList(
@@ -181,6 +222,10 @@ public class ClassesFragment extends Fragment {
                 daysLabel.setVisibility(View.GONE);
                 daysLayout.setVisibility(View.GONE);
 
+                //Date inputs and labels MUST be displayed
+                date.setVisibility(View.VISIBLE);
+                dateLabel.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -188,6 +233,11 @@ public class ClassesFragment extends Fragment {
         repeatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //currentOccurMode.remove(onceButton.getText().toString());
+                currentOccurMode.clear();
+                currentOccurMode.add(repeatingButton.getText().toString());
+                System.out.println(currentOccurMode);
 
                 //Repeating Button need to Switch to Light Teal background with White text color
                 ViewCompat.setBackgroundTintList(
@@ -209,10 +259,13 @@ public class ClassesFragment extends Fragment {
                 daysLayout.setVisibility(View.VISIBLE);
                 daysLabel.setVisibility(View.VISIBLE);
 
+                //Date inputs and labels MUST NOT be displayed
+                date.setVisibility(View.GONE);
+                dateLabel.setVisibility(View.GONE);
             }
         });
 
-        // Create an empty list to hold clicked TextView values
+        // Create an empty list to hold clicked Days TextView values
         List<String> clickedTextViews = new ArrayList<>();
 
         // Ensuring the mondayButton switches colors when clicked on
@@ -456,6 +509,75 @@ public class ClassesFragment extends Fragment {
             }
         });
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Get User ID & Email
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+
+                //Get All Inputs
+                String currentClassModeText = currentClassMode.get(0);
+                System.out.println("Current Class Mode: " + currentClassModeText);
+                String moduleNameText = moduleName.getText().toString();
+                String roomNumberText = roomNum.getText().toString();
+                String buildingText = building.getText().toString();
+                String lecturerNameText = lecturerName.getText().toString();
+                String lecturerEmailText = lecturerEmail.getText().toString();
+                String onlineClassURLText = onlineURL.getText().toString();
+                String currentOccurModeText = currentOccurMode.get(0);
+                System.out.println("Current Occur Mode: " + currentOccurModeText);
+
+                // Retrieve and format date
+                int day = date.getDayOfMonth();
+                int month = date.getMonth() + 1; // Month is 0-based, so add 1
+                int year = date.getYear();
+                String dateString = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+                // Retrieve and format start time
+                int startHour = startTime.getHour();
+                int startMinute = startTime.getMinute();
+                String startTimeString = String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute);
+
+                // Retrieve and format end time
+                int endHour = endTime.getHour();
+                int endMinute = endTime.getMinute();
+                String endTimeString = String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute);
+
+                // Print out the date and time strings to verify
+                System.out.println("Date: " + dateString);
+                System.out.println("Start Time: " + startTimeString);
+                System.out.println("End Time: " + endTimeString);
+
+
+                //Validate All Inputs
+
+
+                //Save Data in DB after validation
+                Classes classes = new Classes(currentClassModeText, moduleNameText, roomNumberText,
+                        buildingText, lecturerNameText, lecturerEmailText, currentOccurModeText,
+                        dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
+                db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
+                reference = db.getReference("Users").child(userID).child("Classes"); // Get the reference to the user's sub-collection of classes
+                // Create a unique ID for the class or use any specific identifier if you have one
+                String classID = reference.push().getKey();
+                assert classID != null;
+                reference.child(classID).setValue(classes).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Use getActivity() or getContext() to provide a valid context
+                            Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+            }
+        });
 
 
 
