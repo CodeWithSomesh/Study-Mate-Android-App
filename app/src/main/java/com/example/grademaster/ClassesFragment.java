@@ -1,5 +1,6 @@
 package com.example.grademaster;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -688,6 +689,9 @@ public class ClassesFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Use getActivity() or getContext() to provide a valid context
                             Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
+                            // Handle login navigation
+                            Intent intent = new Intent(getActivity(), HomeFragment.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
                         }

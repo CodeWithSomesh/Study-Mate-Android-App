@@ -27,6 +27,7 @@
     <string name="date">Sun, Oct 27</string>
     <string name="noActivityMessage">No classes, tasks or exams left for today</string>
     <string name="addNewText">Add New</string>
+    <string name="cardDetailsText">Details</string>
 
 
     <string name="title_activity_add_new_task">AddNewTaskActivity</string>

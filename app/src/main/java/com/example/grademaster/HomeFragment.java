@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Calendar;
 
@@ -81,8 +82,11 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
 
                     Classes classes = dataSnapshot.getValue(Classes.class);
-                    classesList.add(classes);
+                    //classesList.add(classes);
+                    classesList.add(0, classes); // Add at the beginning of the list
 
+                    // Reverse the list to display the latest classes first
+                    //Collections.reverse(classesList);
 
                 }
 
