@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavView = findViewById(R.id.bottomNavView);
         addButton = findViewById(R.id.addButton);
 
+
         replaceFragment(new HomeFragment());
         bottomNavView.setBackground(null);
         //bottomNavView.setItemActiveIndicatorColor();

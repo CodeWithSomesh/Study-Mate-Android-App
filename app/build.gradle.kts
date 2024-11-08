@@ -53,4 +53,5 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("org.mindrot:jbcrypt:0.4") // BCrypt dependency
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29") // GIF Dependency
 }

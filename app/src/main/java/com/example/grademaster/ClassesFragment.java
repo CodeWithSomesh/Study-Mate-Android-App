@@ -1,5 +1,6 @@
 package com.example.grademaster;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -583,9 +584,9 @@ public class ClassesFragment extends Fragment {
                             daysLabel.setError("At least one day is required");
                             daysLabel.requestFocus();
                         } else {
-                            dateString = "";
-                            roomNumberText = "";
-                            buildingText = "";
+                            dateString = "None";
+                            roomNumberText = "None";
+                            buildingText = "None";
                             // Save Data in DB after performing validation
                             addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
                                     lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
@@ -596,9 +597,10 @@ public class ClassesFragment extends Fragment {
                     } else {
                         if (Objects.equals(currentOccurModeText, "Once")) {
                             clickedTextViews.clear();
+                            clickedTextViews.add("None");
                         }
-                        roomNumberText = "";
-                        buildingText = "";
+                        roomNumberText = "None";
+                        buildingText = "None";
 
                         // Save Data in DB after performing validation
                         addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
@@ -634,8 +636,8 @@ public class ClassesFragment extends Fragment {
                             daysLabel.setError("At least one day is required");
                             daysLabel.requestFocus();
                         } else {
-                            dateString = "";
-                            onlineClassURLText = "";
+                            dateString = "None";
+                            onlineClassURLText = "None";
                             // Save Data in DB after performing validation
                             addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
                                     lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
@@ -647,8 +649,9 @@ public class ClassesFragment extends Fragment {
                     } else {
                         if (Objects.equals(currentOccurModeText, "Once")) {
                             clickedTextViews.clear();
+                            clickedTextViews.add("None");
                         }
-                        onlineClassURLText = "";
+                        onlineClassURLText = "None";
 
                         // Save Data in DB after performing validation
                         addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
@@ -688,6 +691,9 @@ public class ClassesFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Use getActivity() or getContext() to provide a valid context
                             Toast.makeText(getActivity(), "Class Added Successfully", Toast.LENGTH_LONG).show();
+                            // Handle login navigation
+                            Intent intent = new Intent(getActivity(), HomeFragment.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getActivity(), "Failed to Add Class", Toast.LENGTH_LONG).show();
                         }
