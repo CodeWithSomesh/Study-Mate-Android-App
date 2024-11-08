@@ -77,6 +77,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                         Classes selectedClass = list.get(position);
 
                         Intent intent = new Intent(context, ClassesCardDetailsActivity.class);
+
+                        intent.putExtra("classID", selectedClass.classID != null ? selectedClass.classID : "N/A");
                         intent.putExtra("classMode", selectedClass.classMode != null ? selectedClass.classMode : "N/A");
                         intent.putExtra("moduleName", selectedClass.moduleName != null ? selectedClass.moduleName : "N/A");
                         intent.putExtra("roomNumber", selectedClass.roomNumber != null ? selectedClass.roomNumber : "N/A");

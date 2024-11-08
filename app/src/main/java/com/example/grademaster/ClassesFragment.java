@@ -671,11 +671,6 @@ public class ClassesFragment extends Fragment {
                                   List<String> clickedTextViews, String userID, String userEmail)
             {
 
-                // Create a Classes object
-                Classes classes = new Classes(currentClassModeText, moduleNameText, roomNumberText,
-                        buildingText, lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
-                        dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
-
                 // Initialize Firebase Database
                 db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
                 reference = db.getReference("Users").child(userID).child("Classes"); // Get the reference to the user's sub-collection of classes
@@ -683,6 +678,11 @@ public class ClassesFragment extends Fragment {
                 // Create a unique ID for the class
                 String classID = reference.push().getKey();
                 assert classID != null;
+
+                // Create a Classes object
+                Classes classes = new Classes(classID, currentClassModeText, moduleNameText, roomNumberText,
+                        buildingText, lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
+                        dateString, startTimeString, endTimeString, clickedTextViews, userID, userEmail);
 
                 // Save data to the database
                 reference.child(classID).setValue(classes).addOnCompleteListener(new OnCompleteListener<Void>() {
