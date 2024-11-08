@@ -584,9 +584,9 @@ public class ClassesFragment extends Fragment {
                             daysLabel.setError("At least one day is required");
                             daysLabel.requestFocus();
                         } else {
-                            dateString = "";
-                            roomNumberText = "";
-                            buildingText = "";
+                            dateString = "None";
+                            roomNumberText = "None";
+                            buildingText = "None";
                             // Save Data in DB after performing validation
                             addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
                                     lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
@@ -597,9 +597,10 @@ public class ClassesFragment extends Fragment {
                     } else {
                         if (Objects.equals(currentOccurModeText, "Once")) {
                             clickedTextViews.clear();
+                            clickedTextViews.add("None");
                         }
-                        roomNumberText = "";
-                        buildingText = "";
+                        roomNumberText = "None";
+                        buildingText = "None";
 
                         // Save Data in DB after performing validation
                         addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
@@ -635,8 +636,8 @@ public class ClassesFragment extends Fragment {
                             daysLabel.setError("At least one day is required");
                             daysLabel.requestFocus();
                         } else {
-                            dateString = "";
-                            onlineClassURLText = "";
+                            dateString = "None";
+                            onlineClassURLText = "None";
                             // Save Data in DB after performing validation
                             addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,
                                     lecturerNameText, lecturerEmailText, onlineClassURLText, currentOccurModeText,
@@ -648,8 +649,9 @@ public class ClassesFragment extends Fragment {
                     } else {
                         if (Objects.equals(currentOccurModeText, "Once")) {
                             clickedTextViews.clear();
+                            clickedTextViews.add("None");
                         }
-                        onlineClassURLText = "";
+                        onlineClassURLText = "None";
 
                         // Save Data in DB after performing validation
                         addClass(currentClassModeText, moduleNameText, roomNumberText, buildingText,

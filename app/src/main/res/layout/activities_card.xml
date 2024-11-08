@@ -88,16 +88,16 @@
                     android:id="@+id/calendarIcon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/calendar_today_24"
+                    android:src="@drawable/book_icon_24"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"/>
 
                 <TextView
-                    android:id="@+id/dayText"
+                    android:id="@+id/modeText"
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_18pt_semibold"
-                    android:text="Sun"
+                    android:text="In Person"
                     android:textColor="#fff"
                     android:textSize="18sp"
                     android:layout_marginStart="5dp"
@@ -140,7 +140,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="0dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="15dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"

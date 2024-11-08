@@ -35,34 +35,34 @@ public class classesList extends AppCompatActivity {
         setContentView(R.layout.activity_classes_list);
 
         //Get User ID & Email
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        recyclerView = findViewById(R.id.activitiesCardsList);
-        database = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("Classes");
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        classesList = new ArrayList<>();
-        myAdapter = new MyAdapter(this, classesList);
-        recyclerView.setAdapter(myAdapter);
-
-        database.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-
-                    Classes classes = dataSnapshot.getValue(Classes.class);
-                    classesList.add(classes);
-                }
-
-                myAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//
+//        recyclerView = findViewById(R.id.activitiesCardsList);
+//        database = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("Classes");
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        classesList = new ArrayList<>();
+//        myAdapter = new MyAdapter(this, classesList);
+//        recyclerView.setAdapter(myAdapter);
+//
+//        database.addValueEventListener(new ValueEventListener() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//
+//                    Classes classes = dataSnapshot.getValue(Classes.class);
+//                    classesList.add(classes);
+//                }
+//
+//                myAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }

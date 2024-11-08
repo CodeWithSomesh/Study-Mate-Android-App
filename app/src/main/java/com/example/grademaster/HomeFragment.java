@@ -2,6 +2,7 @@ package com.example.grademaster;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Calendar;
 
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class HomeFragment extends Fragment {
 
@@ -40,6 +43,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Classes> classesList;
     private ImageView gradIcon;
     private LinearLayout quick_actions_layout;
+    private GifImageView greetingIcon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +62,7 @@ public class HomeFragment extends Fragment {
         classCount = view.findViewById(R.id.classCount);
         examsCount = view.findViewById(R.id.examsCount);
         assignmentsCount = view.findViewById(R.id.assignmentsCount);
+        greetingIcon = view.findViewById(R.id.greetingIcon);
         recyclerView = view.findViewById(R.id.activitiesCardsListRecyclerView);
         gradIcon = view.findViewById(R.id.gradIcon);
         noActivityMessage = view.findViewById(R.id.noActivityMessage);
@@ -117,6 +122,7 @@ public class HomeFragment extends Fragment {
             greetingMessage.setText("Good Evening");
         } else {
             greetingMessage.setText("Good Night");
+            greetingIcon.setImageResource(R.drawable.night_gif);
         }
 
 
@@ -167,7 +173,7 @@ public class HomeFragment extends Fragment {
 
 
 
-
         return view;
     }
+
 }
