@@ -568,7 +568,7 @@
                     android:textColor="#FFFFFF" />
 
                 <TextView
-                    android:id="@+id/saveButton"
+                    android:id="@+id/updateButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

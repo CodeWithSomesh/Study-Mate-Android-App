@@ -1,8 +1,11 @@
 package com.example.grademaster;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -10,28 +13,37 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class UpdateClassActivity extends AppCompatActivity {
 
     private EditText moduleName, roomNum, building, lecturerName, lecturerEmail, onlineURL;
     private TextView inPersonButton, onlineButton, onceButton, repeatingButton, mondayButton,
             tuesdayButton, wednesdayButton, thursdayButton, fridayButton, saturdayButton,
-            sundayButton, cancelButton, saveButton, onlineClassURLLabel, daysLabel, dateLabel;
+            sundayButton, cancelButton, updateButton, onlineClassURLLabel, daysLabel, dateLabel;
     private ImageView backButton;
     private DatePicker date;
     private TimePicker startTime, endTime;
@@ -82,7 +94,7 @@ public class UpdateClassActivity extends AppCompatActivity {
         saturdayButton = findViewById(R.id.saturdayButton);
         sundayButton = findViewById(R.id.sundayButton);
         cancelButton = findViewById(R.id.cancelButton);
-        saveButton = findViewById(R.id.saveButton);
+        updateButton = findViewById(R.id.updateButton);
         onlineClassURLLabel = findViewById(R.id.onlineClassURLLabel);
         daysLabel = findViewById(R.id.daysLabel);
         dateLabel = findViewById(R.id.dateLabel);
@@ -346,6 +358,7 @@ public class UpdateClassActivity extends AppCompatActivity {
 
         // Create an empty list to hold clicked Days TextView values
         List<String> currentClassMode = new ArrayList<>();
+        currentClassMode.add(classMode);
 
         // Handle Online button click
         onlineButton.setOnClickListener(new View.OnClickListener() {
@@ -424,6 +437,7 @@ public class UpdateClassActivity extends AppCompatActivity {
 
         // Create an empty list to hold clicked Days TextView values
         List<String> currentOccurMode = new ArrayList<>();
+        currentOccurMode.add(occurence);
 
         // Handle Once button click
         onceButton.setOnClickListener(new View.OnClickListener() {
@@ -505,7 +519,7 @@ public class UpdateClassActivity extends AppCompatActivity {
 
         // Create an empty list to hold clicked Days TextView values
         //List<String> clickedTextViews = new ArrayList<>();
-
+        clickedTextViews.addAll(daysList);
         // Ensuring the mondayButton switches colors when clicked on
         //AtomicBoolean isMondayButtonClicked = new AtomicBoolean(false);
         mondayButton.setOnClickListener(new View.OnClickListener() {
@@ -513,6 +527,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (!isMondayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());          
+
                     isMondayButtonClicked.set(true);
                     clickedTextViews.add(mondayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -525,6 +544,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     mondayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     mondayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isMondayButtonClicked.set(false);
                     clickedTextViews.remove(mondayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -549,6 +573,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isTuesdayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isTuesdayButtonClicked.set(true);
                     clickedTextViews.add(tuesdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -561,6 +590,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     tuesdayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     tuesdayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isTuesdayButtonClicked.set(false);
                     clickedTextViews.remove(tuesdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -583,6 +617,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isWednesdayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isWednesdayButtonClicked.set(true);
                     clickedTextViews.add(wednesdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -595,6 +634,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     wednesdayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     wednesdayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isWednesdayButtonClicked.set(false);
                     clickedTextViews.remove(wednesdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -617,6 +661,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isThursdayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isThursdayButtonClicked.set(true);
                     clickedTextViews.add(thursdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -629,6 +678,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     thursdayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     thursdayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isThursdayButtonClicked.set(false);
                     clickedTextViews.remove(thursdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -651,6 +705,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isFridayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isFridayButtonClicked.set(true);
                     clickedTextViews.add(fridayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -663,6 +722,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     fridayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     fridayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isFridayButtonClicked.set(false);
                     clickedTextViews.remove(fridayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -685,6 +749,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isSaturdayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isSaturdayButtonClicked.set(true);
                     clickedTextViews.add(saturdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -697,6 +766,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     saturdayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     saturdayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isSaturdayButtonClicked.set(false);
                     clickedTextViews.remove(saturdayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -719,6 +793,11 @@ public class UpdateClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!isSundayButtonClicked.get()) {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+
                     isSundayButtonClicked.set(true);
                     clickedTextViews.add(sundayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -731,6 +810,11 @@ public class UpdateClassActivity extends AppCompatActivity {
                     sundayButton.setTextColor(Color.parseColor("#FFFFFF"));
                     sundayButton.setBackgroundResource(R.drawable.button_background);
                 } else {
+                    //Remove duplicate values in array
+                    clickedTextViews = clickedTextViews.stream()
+                        .distinct()
+                        .collect(Collectors.toList());
+                    
                     isSundayButtonClicked.set(false);
                     clickedTextViews.remove(sundayButton.getText().toString());
                     System.out.println(clickedTextViews);
@@ -743,6 +827,304 @@ public class UpdateClassActivity extends AppCompatActivity {
                     sundayButton.setTextColor(Color.parseColor("#888888"));
                     sundayButton.setBackgroundResource(R.drawable.button_background);
                 }
+
+            }
+        });
+
+        
+
+        
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Initialize Firebase
+                db = FirebaseDatabase.getInstance();
+                userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                classID = getIntent().getStringExtra("classID");
+                classesReference = db.getReference("Users").child(userID).child("Classes").child(classID);
+
+
+                //Get All Inputs
+                String currentClassModeText = currentClassMode.get(0);
+                System.out.println("Current Class Mode: " + currentClassModeText);
+                String moduleNameText = moduleName.getText().toString();
+                String roomNumberText = roomNum.getText().toString();
+                String buildingText = building.getText().toString();
+                String lecturerNameText = lecturerName.getText().toString();
+                String lecturerEmailText = lecturerEmail.getText().toString();
+                String onlineClassURLText = onlineURL.getText().toString();
+                String currentOccurModeText = currentOccurMode.get(0);
+                System.out.println("Current Occur Mode: " + currentOccurModeText);
+
+                // Retrieve and format date
+                String dateString = "";
+                int day = date.getDayOfMonth();
+                int month = date.getMonth() + 1; // Month is 0-based, so add 1
+                int year = date.getYear();
+                dateString = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+                // Retrieve and format start time
+                String startTimeString = "";
+                int startHour = startTime.getHour();
+                int startMinute = startTime.getMinute();
+                startTimeString = String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute);
+
+                // Retrieve and format end time
+                String endTimeString = "";
+                int endHour = endTime.getHour();
+                int endMinute = endTime.getMinute();
+                endTimeString = String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute);
+
+                // Print out the date and time strings to verify
+                System.out.println("Date: " + dateString);
+                System.out.println("Start Time: " + startTimeString);
+                System.out.println("End Time: " + endTimeString);
+
+
+                //Validate All Inputs
+                //If Class Mode is Online
+                if (Objects.equals(currentClassModeText, "Online")) {
+                    if (TextUtils.isEmpty(moduleNameText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Module Name", Toast.LENGTH_LONG).show();
+                        moduleName.setError("Module Name is required");
+                        moduleName.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerNameText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Lecturer's Name", Toast.LENGTH_LONG).show();
+                        lecturerName.setError("Lecturer's Name is required");
+                        lecturerName.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerEmailText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Lecturer's Email", Toast.LENGTH_LONG).show();
+                        lecturerName.setError("Lecturer's Email is required");
+                        lecturerName.requestFocus();
+                    } else if (TextUtils.isEmpty(onlineClassURLText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Online Class URL", Toast.LENGTH_LONG).show();
+                        onlineURL.setError("Online Class URL is required");
+                        onlineURL.requestFocus();
+                    } else if (Objects.equals(currentOccurModeText, "Repeating")){
+                        if (clickedTextViews.isEmpty()) {
+                            Toast.makeText(UpdateClassActivity.this, "Please Select The Repeating Days For Your Class", Toast.LENGTH_LONG).show();
+                            daysLabel.setError("At least one day is required");
+                            daysLabel.requestFocus();
+                        } else {
+                            dateString = "None";
+                            roomNumberText = "None";
+                            buildingText = "None";
+                            clickedTextViews = clickedTextViews.stream()
+                                .distinct()
+                                .collect(Collectors.toList());
+                            String noneValue = "None";
+                            if (clickedTextViews.contains(noneValue)) {
+                                clickedTextViews.remove(noneValue);
+                            }
+                            
+                            // Prepare data for update
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("classMode", currentClassModeText);
+                            updates.put("moduleName", moduleNameText);
+                            updates.put("roomNumber", roomNumberText);
+                            updates.put("building", buildingText);
+                            updates.put("lecturerName", lecturerNameText);
+                            updates.put("lecturerEmail", lecturerEmailText);
+                            updates.put("onlineClassURL", onlineClassURLText);
+                            updates.put("isRepeating", currentOccurModeText);
+                            updates.put("date", dateString);
+                            updates.put("days", clickedTextViews);
+                            updates.put("startTime", startTimeString);
+                            updates.put("endTime", endTimeString);
+
+                            // Update Firebase database
+                            classesReference.updateChildren(updates).
+                                    addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(UpdateClassActivity.this,
+                                                        "Class details updated successfully",
+                                                        Toast.LENGTH_SHORT).show();
+                                                // Navigate to Class Details Page
+                                                Intent intent = new Intent(UpdateClassActivity.this, HomeFragment.class);
+                                                startActivity(intent);
+                                            } else {
+                                                Exception e = task.getException();
+                                                Log.e("UpdateClassActivity", "Error updating class details", e);
+                                                Toast.makeText(UpdateClassActivity.this,
+                                                        "Failed to update class details",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
+
+                    } else {
+                        if (Objects.equals(currentOccurModeText, "Once")) {
+                            clickedTextViews.clear();
+                            clickedTextViews.add("None");
+                        }
+                        roomNumberText = "None";
+                        buildingText = "None";
+
+                        // Prepare data for update
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("classMode", currentClassModeText);
+                        updates.put("moduleName", moduleNameText);
+                        updates.put("roomNumber", roomNumberText);
+                        updates.put("building", buildingText);
+                        updates.put("lecturerName", lecturerNameText);
+                        updates.put("lecturerEmail", lecturerEmailText);
+                        updates.put("onlineClassURL", onlineClassURLText);
+                        updates.put("isRepeating", currentOccurModeText);
+                        updates.put("date", dateString);
+                        updates.put("days", clickedTextViews);
+                        updates.put("startTime", startTimeString);
+                        updates.put("endTime", endTimeString);
+
+                        // Update Firebase database
+                        classesReference.updateChildren(updates).
+                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(UpdateClassActivity.this,
+                                                    "Class details updated successfully",
+                                                    Toast.LENGTH_SHORT).show();
+                                            // Navigate to Class Details Page
+                                            Intent intent = new Intent(UpdateClassActivity.this, HomeFragment.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Exception e = task.getException();
+                                            Log.e("UpdateClassActivity", "Error updating class details", e);
+                                            Toast.makeText(UpdateClassActivity.this,
+                                                    "Failed to update class details",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                } else if (Objects.equals(currentClassModeText, "In Person")){
+                    if (TextUtils.isEmpty(moduleNameText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Module Name", Toast.LENGTH_LONG).show();
+                        moduleName.setError("Module Name is required");
+                        moduleName.requestFocus();
+                    } else if (TextUtils.isEmpty(roomNumberText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Room Number", Toast.LENGTH_LONG).show();
+                        roomNum.setError("Room Number is required");
+                        roomNum.requestFocus();
+                    } else if (TextUtils.isEmpty(buildingText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter The Building", Toast.LENGTH_LONG).show();
+                        building.setError("Building is required");
+                        building.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerNameText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Lecturer's Name", Toast.LENGTH_LONG).show();
+                        lecturerName.setError("Lecturer's Name is required");
+                        lecturerName.requestFocus();
+                    } else if (TextUtils.isEmpty(lecturerEmailText)) {
+                        Toast.makeText(UpdateClassActivity.this, "Please Enter Your Lecturer's Email", Toast.LENGTH_LONG).show();
+                        lecturerEmail.setError("Lecturer's Email is required");
+                        lecturerEmail.requestFocus();
+                    }
+                    else if (Objects.equals(currentOccurModeText, "Repeating")){
+                        if (clickedTextViews.isEmpty()) {
+                            Toast.makeText(UpdateClassActivity.this, "Please Select The Repeating Days For Your Class", Toast.LENGTH_LONG).show();
+                            daysLabel.setError("At least one day is required");
+                            daysLabel.requestFocus();
+                        } else {
+                            dateString = "None";
+                            onlineClassURLText = "None";
+                            clickedTextViews = clickedTextViews.stream()
+                                .distinct()
+                                .collect(Collectors.toList());
+                            String noneValue = "None";
+                            if (clickedTextViews.contains(noneValue)) {
+                                clickedTextViews.remove(noneValue);
+                            }
+
+                            // Prepare data for update
+                            Map<String, Object> updates = new HashMap<>();
+                            updates.put("classMode", currentClassModeText);
+                            updates.put("moduleName", moduleNameText);
+                            updates.put("roomNumber", roomNumberText);
+                            updates.put("building", buildingText);
+                            updates.put("lecturerName", lecturerNameText);
+                            updates.put("lecturerEmail", lecturerEmailText);
+                            updates.put("onlineClassURL", onlineClassURLText);
+                            updates.put("isRepeating", currentOccurModeText);
+                            updates.put("date", dateString);
+                            updates.put("days", clickedTextViews);
+                            updates.put("startTime", startTimeString);
+                            updates.put("endTime", endTimeString);
+
+                            // Update Firebase database
+                            classesReference.updateChildren(updates).
+                                    addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(UpdateClassActivity.this,
+                                                        "Class details updated successfully",
+                                                        Toast.LENGTH_SHORT).show();
+                                                // Navigate to Class Details Page
+                                                Intent intent = new Intent(UpdateClassActivity.this, HomeFragment.class);
+                                                startActivity(intent);
+                                            } else {
+                                                Exception e = task.getException();
+                                                Log.e("UpdateClassActivity", "Error updating class details", e);
+                                                Toast.makeText(UpdateClassActivity.this,
+                                                        "Failed to update class details",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
+
+
+                    } else {
+                        if (Objects.equals(currentOccurModeText, "Once")) {
+                            clickedTextViews.clear();
+                            clickedTextViews.add("None");
+                        }
+                        onlineClassURLText = "None";
+
+                        // Prepare data for update
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("classMode", currentClassModeText);
+                        updates.put("moduleName", moduleNameText);
+                        updates.put("roomNumber", roomNumberText);
+                        updates.put("building", buildingText);
+                        updates.put("lecturerName", lecturerNameText);
+                        updates.put("lecturerEmail", lecturerEmailText);
+                        updates.put("onlineClassURL", onlineClassURLText);
+                        updates.put("isRepeating", currentOccurModeText);
+                        updates.put("date", dateString);
+                        updates.put("days", clickedTextViews); 
+                        updates.put("startTime", startTimeString);
+                        updates.put("endTime", endTimeString);
+
+                        // Update Firebase database
+                        classesReference.updateChildren(updates).
+                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(UpdateClassActivity.this,
+                                                    "Class details updated successfully",
+                                                    Toast.LENGTH_SHORT).show();
+                                            // Navigate to Class Details Page
+                                            Intent intent = new Intent(UpdateClassActivity.this, HomeFragment.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Exception e = task.getException();
+                                            Log.e("UpdateClassActivity", "Error updating class details", e);
+                                            Toast.makeText(UpdateClassActivity.this,
+                                                    "Failed to update class details",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                    }
+                }
+
 
             }
         });
