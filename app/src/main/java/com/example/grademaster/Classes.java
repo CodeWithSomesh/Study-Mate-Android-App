@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Classes {
 
+    String classID;
     String classMode;
     String moduleName;
     String roomNumber;
@@ -23,11 +24,12 @@ public class Classes {
     public Classes() {
     }
 
-    public Classes(String classMode, String moduleName, String roomNumber, String building,
+    public Classes(String classID, String classMode, String moduleName, String roomNumber, String building,
                    String lecturerName, String lecturerEmail, String onlineClassURL,
                    String isRepeating, String date, String startTime, String endTime,
                    List<String> days, String userID,
                    String userEmail) {
+        this.classID = classID;
         this.classMode = classMode;
         this.moduleName = moduleName;
         this.roomNumber = roomNumber;
@@ -42,6 +44,14 @@ public class Classes {
         this.days = new ArrayList<>(days);
         this.userID = userID;
         this.userEmail = userEmail;
+    }
+
+    public String getClassID() {
+        return classID;
+    }
+
+    public void setClassID(String classID) {
+        this.classID = classID;
     }
 
     public String getClassMode() {
