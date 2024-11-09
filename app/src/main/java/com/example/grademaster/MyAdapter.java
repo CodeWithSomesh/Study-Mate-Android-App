@@ -19,10 +19,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<Classes> list;
+    ArrayList<Classes> originalList; // Add this to keep a copy of the original data
 
     public MyAdapter(Context context, ArrayList<Classes> list) {
         this.context = context;
         this.list = list;
+        this.originalList = new ArrayList<>(list); // Store a separate copy for filtering
         //this.classesRecyclerViewInterface = classesRecyclerViewInterface;
     }
 
@@ -98,5 +100,30 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 }
             });
         }
+    }
+
+    //Updates the list displayed in the RecyclerView based on the filtered list.
+    public void updateList(ArrayList<Classes> filteredList) {
+        this.list.clear();
+        this.list.addAll(filteredList);
+        notifyDataSetChanged();
+    }
+
+    //Filters the original list based on the module name and updates the RecyclerView with the filtered list.
+    public void filterByModuleName(String moduleName) {
+        ArrayList<Classes> filteredList = new ArrayList<>();
+
+        if ("All Class Modules".equals(moduleName)) {
+            filteredList.addAll(originalList); // Show all classes if no filter is selected
+        } else {
+            for (Classes classes : originalList) {
+                if (moduleName.equals(classes.getModuleName())) {
+                    filteredList.add(classes);
+                }
+            }
+        }
+
+        // Update the RecyclerView with the filtered list
+        updateList(filteredList);
     }
 }

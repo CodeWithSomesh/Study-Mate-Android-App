@@ -48,7 +48,10 @@ public class HomeActivity extends AppCompatActivity {
             if (itemId == R.id.home) {
                 replaceFragment(new HomeFragment());
             } else if (itemId == R.id.activities) {
-                replaceFragment(new ActivityFragment());
+                //replaceFragment(new ActivityFragment());
+                // Handle login navigation
+                Intent intent = new Intent(HomeActivity.this, ManageTasksActivity.class);
+                startActivity(intent);
             } else if (itemId == R.id.calculator) {
                 replaceFragment(new CalculatorFragment());
             } else if (itemId == R.id.profile) {
