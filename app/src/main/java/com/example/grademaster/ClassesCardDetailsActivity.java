@@ -126,6 +126,28 @@ public class ClassesCardDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //Update Class Feature
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ClassesCardDetailsActivity.this, UpdateClassActivity.class);
+                intent.putExtra("classID", classID);
+                intent.putExtra("moduleName", moduleName);
+                intent.putExtra("classMode", classMode);
+                intent.putExtra("roomNumber", room);
+                intent.putExtra("building", building);
+                intent.putExtra("startTime", startTime);
+                intent.putExtra("endTime", endTime);
+                intent.putExtra("lecturerName", lecturerName);
+                intent.putExtra("lecturerEmail", lecturerEmail);
+                intent.putExtra("onlineClassURL", onlineClassURL);
+                intent.putExtra("occurence", occurence);
+                intent.putStringArrayListExtra("days", (ArrayList<String>) daysList);
+                intent.putExtra("date", date);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
