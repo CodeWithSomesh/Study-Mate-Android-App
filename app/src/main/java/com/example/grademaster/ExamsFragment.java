@@ -1,13 +1,16 @@
 package com.example.grademaster;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +19,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 public class ExamsFragment extends Fragment {
 
@@ -28,6 +40,8 @@ public class ExamsFragment extends Fragment {
     private DatePicker date;
     private TimePicker startTime, endTime;
     private LinearLayout roomBuildingLayout;
+    private FirebaseDatabase db;
+    private DatabaseReference reference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -147,6 +161,133 @@ public class ExamsFragment extends Fragment {
                 //Room Number and Building inputs and labels MUST be displayed
                 roomBuildingLayout.setVisibility(View.VISIBLE);
             }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Get User ID & Email
+                String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+
+                //Get All Inputs
+                String currentExamModeText = currentClassMode.get(0);
+                System.out.println("Current Class Mode: " + currentExamModeText);
+                String moduleNameText = moduleName.getText().toString();
+                String roomNumberText = roomNum.getText().toString();
+                String buildingText = building.getText().toString();
+                String onlineExamURLText = onlineURL.getText().toString();
+
+                // Retrieve and format date
+                String dateString = "";
+                int day = date.getDayOfMonth();
+                int month = date.getMonth() + 1; // Month is 0-based, so add 1
+                int year = date.getYear();
+                dateString = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+                // Retrieve and format start time
+                String startTimeString = "";
+                int startHour = startTime.getHour();
+                int startMinute = startTime.getMinute();
+                startTimeString = String.format(Locale.getDefault(), "%02d:%02d", startHour, startMinute);
+
+                // Retrieve and format end time
+                String endTimeString = "";
+                int endHour = endTime.getHour();
+                int endMinute = endTime.getMinute();
+                endTimeString = String.format(Locale.getDefault(), "%02d:%02d", endHour, endMinute);
+
+                // Print out the date and time strings to verify
+                System.out.println("Date: " + dateString);
+                System.out.println("Start Time: " + startTimeString);
+                System.out.println("End Time: " + endTimeString);
+
+
+                //Validate All Inputs
+
+                //If Class Mode is Online
+                if (Objects.equals(currentExamModeText, "Online")) {
+                    if (TextUtils.isEmpty(moduleNameText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Module Name", Toast.LENGTH_LONG).show();
+                        moduleName.setError("Module Name is required");
+                        moduleName.requestFocus();
+                    } else if (TextUtils.isEmpty(onlineExamURLText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Online Class URL", Toast.LENGTH_LONG).show();
+                        onlineURL.setError("Online Class URL is required");
+                        onlineURL.requestFocus();
+                    } else {
+                        roomNumberText = "None";
+                        buildingText = "None";
+
+                        //Add Exam Function
+                        addExam(currentExamModeText, moduleNameText, roomNumberText,  buildingText,
+                                onlineExamURLText, dateString,  startTimeString,  endTimeString,
+                                userID,  userEmail);
+                    }
+                } else if (Objects.equals(currentExamModeText, "In Person")){
+                    if (TextUtils.isEmpty(moduleNameText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Module Name", Toast.LENGTH_LONG).show();
+                        moduleName.setError("Module Name is required");
+                        moduleName.requestFocus();
+                    } else if (TextUtils.isEmpty(roomNumberText)) {
+                        Toast.makeText(getActivity(), "Please Enter Your Room Number", Toast.LENGTH_LONG).show();
+                        roomNum.setError("Room Number is required");
+                        roomNum.requestFocus();
+                    } else if (TextUtils.isEmpty(buildingText)) {
+                        Toast.makeText(getActivity(), "Please Enter The Building", Toast.LENGTH_LONG).show();
+                        building.setError("Building is required");
+                        building.requestFocus();
+                    } else {
+                        onlineExamURLText = "None";
+
+                        //Add Exam Function
+                        //Add Exam Function
+                        addExam(currentExamModeText, moduleNameText, roomNumberText,  buildingText,
+                                onlineExamURLText, dateString,  startTimeString,  endTimeString,
+                                userID,  userEmail);
+                    }
+                }
+
+            }
+
+            private void addExam(String currentExamModeText, String moduleNameText,
+                                  String roomNumberText, String buildingText, String onlineExamURLText,
+                                  String dateString, String startTimeString, String endTimeString,
+                                  String userID, String userEmail)
+            {
+
+                // Initialize Firebase Database
+                db = FirebaseDatabase.getInstance(); // Initialize Firebase Database
+                reference = db.getReference("Users").child(userID).child("Exams"); // Get the reference to the user's sub-collection of classes
+
+                // Create a unique ID for the class
+                String examID = reference.push().getKey();
+                assert examID != null;
+
+                // Create a Classes object
+                Exams exam = new Exams(examID, currentExamModeText, moduleNameText, roomNumberText,
+                        buildingText, onlineExamURLText, dateString, startTimeString, endTimeString,
+                        userID, userEmail);
+
+                // Save data to the database
+                reference.child(examID).setValue(exam).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Use getActivity() or getContext() to provide a valid context
+                            Toast.makeText(getActivity(), "Exam Added Successfully", Toast.LENGTH_LONG).show();
+                            // Handle login navigation
+                            Intent intent = new Intent(getActivity(), HomeFragment.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getActivity(), "Failed to Add Exam", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+
         });
 
 
