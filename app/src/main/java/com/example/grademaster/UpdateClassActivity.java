@@ -69,6 +69,7 @@ public class UpdateClassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_class);
 
 
+
         //Initialize UI Components
         //EditTexts
         moduleName = findViewById(R.id.inputModuleName);
@@ -114,6 +115,7 @@ public class UpdateClassActivity extends AppCompatActivity {
         classID = getIntent().getStringExtra("classID");
         classesReference = db.getReference("Users").child(userID).child("Classes").child(classID);
         System.out.println(classID);
+        //System.out.println("I am at Update Class Activity Page");
 
         // Populate fields with existing data in Firebase DB
         classMode = getIntent().getStringExtra("classMode");

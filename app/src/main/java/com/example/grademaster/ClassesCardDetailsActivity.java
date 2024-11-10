@@ -33,7 +33,7 @@ public class ClassesCardDetailsActivity extends AppCompatActivity {
             lecturerEmailText, onlineClassURLText, classOccurenceText, onceOrRepeatingLabel,
             occurenceDays, deleteButton, updateButton;
     private FirebaseDatabase db;
-    private DatabaseReference classesReference, usersReference;
+    private DatabaseReference classRef, classesReference, usersReference;
     private LinearLayout onlineClassLayout;
 
     @Override
@@ -57,8 +57,10 @@ public class ClassesCardDetailsActivity extends AppCompatActivity {
         ArrayList<String> daysList = getIntent().getStringArrayListExtra("days");
         String date = getIntent().getStringExtra("date");
         ImageView backButton = findViewById(R.id.backButton);
-        System.out.println(onlineClassURL);
-        System.out.println("Class ID: " + classID);
+//        System.out.println("Online Class URL 1: " + onlineClassURL);
+//        System.out.println("Class ID 1: " + classID);
+//        System.out.println("Class Occurence 1: " + occurence);
+//        System.out.println("Days List 1: " + daysList);
 
         // Check if daysList is not null and then join the elements for display
         String daysString = daysList != null ? String.join(", ", daysList) : "No days available";
@@ -93,20 +95,60 @@ public class ClassesCardDetailsActivity extends AppCompatActivity {
         occurenceDays.setText(daysString);
         onlineClassURLText.setText(onlineClassURL);
 
-        if (classModeText.getText().toString().equals("In Person")){
-            onlineClassLayout.setVisibility(View.GONE);
-        } else if (classModeText.getText().toString().equals("Online")) {
-            onlineClassLayout.setVisibility(View.VISIBLE);
-            onlineClassURLText.setText(onlineClassURL);
-            System.out.println(onlineClassURLText.getText().toString());
-        }
+        // Initialize Firebase Database
+        db = FirebaseDatabase.getInstance();
+        classRef = db.getReference("Users").child(userID).child("Classes");
 
-        if (classOccurenceText.getText().toString().equals("Once")){
-            onceOrRepeatingLabel.setText("Once On:");
-            occurenceDays.setText(date);
-        } else if (classOccurenceText.getText().toString().equals("Repeating")) {
-            occurenceDays.setText(daysString);
-        }
+        classRef.child(classID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    //Create a Class model (recommended for multiple attributes)
+                    Classes classData = snapshot.getValue(Classes.class);
+                    if (classData != null) {
+
+                        onlineClassURLText.setText(classData.getOnlineClassURL());
+                        classOccurenceText.setText(classData.getIsRepeating());
+                        ArrayList<String> daysList = classData.getDays();
+
+                        //Check if daysList is not null and then join the elements for display
+                        String daysString = daysList != null ? String.join(", ", daysList) : "No days available";
+                        occurenceDays.setText(daysString);
+
+                        if (classModeText.getText().toString().equals("In Person")){
+                            onlineClassLayout.setVisibility(View.GONE);
+                        } else if (classModeText.getText().toString().equals("Online")) {
+                            onlineClassLayout.setVisibility(View.VISIBLE);
+                            onlineClassURLText.setText(onlineClassURL);
+                            //System.out.println(onlineClassURLText.getText().toString());
+                        }
+
+                        if (classOccurenceText.getText().toString().equals("Once")){
+                            onceOrRepeatingLabel.setText("Once On:");
+                            occurenceDays.setText(date);
+                        } else if (classOccurenceText.getText().toString().equals("Repeating")) {
+                            occurenceDays.setText(daysString);
+                        }
+
+                    }
+                } else {
+                    System.out.println("Class not found");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error: " + error.getMessage());
+            }
+        });
+
+        System.out.println("Online Class URL 2: " + onlineClassURLText.getText().toString());
+        System.out.println("Class Occurence 2: " + classOccurenceText.getText().toString());
+        System.out.println("Days List 2: " + occurenceDays.getText().toString());
+
+
+
+
 
 
         // Handle back button click
@@ -140,8 +182,8 @@ public class ClassesCardDetailsActivity extends AppCompatActivity {
                 intent.putExtra("endTime", endTime);
                 intent.putExtra("lecturerName", lecturerName);
                 intent.putExtra("lecturerEmail", lecturerEmail);
-                intent.putExtra("onlineClassURL", onlineClassURL);
-                intent.putExtra("occurence", occurence);
+                intent.putExtra("onlineClassURL", onlineClassURLText.getText().toString());
+                intent.putExtra("occurence", classOccurenceText.getText().toString());
                 intent.putStringArrayListExtra("days", (ArrayList<String>) daysList);
                 intent.putExtra("date", date);
                 startActivity(intent);
@@ -167,7 +209,7 @@ public class ClassesCardDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteClassFromFirebase(String classID) {
-        System.out.println("Class ID to be deleted: " + classID);
+        //System.out.println("Class ID to be deleted: " + classID);
 
         //Get User ID
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();

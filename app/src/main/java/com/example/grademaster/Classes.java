@@ -106,7 +106,7 @@ public class Classes {
         return onlineClassURL;
     }
 
-    public void setOnlineClassURL(String lecturerEmail) {
+    public void setOnlineClassURL(String onlineClassURL) {
         this.onlineClassURL = onlineClassURL;
     }
 

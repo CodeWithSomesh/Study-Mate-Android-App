@@ -31,6 +31,7 @@ public class ManageClassesFragment extends Fragment {
     private DatabaseReference classesReference;
     private RecyclerView recyclerView;
     private MyAdapter myAdapter;
+    private ArrayList<Object> combinedList;
     private ArrayList<Classes> classesList;
     private ArrayList<String> moduleNames;
     private Spinner mySpinner;
@@ -45,9 +46,11 @@ public class ManageClassesFragment extends Fragment {
         mySpinner = view.findViewById(R.id.my_spinner);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        combinedList = new ArrayList<>();
         classesList = new ArrayList<>();
+        combinedList.addAll(classesList);
         moduleNames = new ArrayList<>();
-        myAdapter = new MyAdapter(getContext(), classesList);
+        myAdapter = new MyAdapter(getContext(), combinedList, classesList);
         recyclerView.setAdapter(myAdapter);
 
         // Get User ID
@@ -76,9 +79,13 @@ public class ManageClassesFragment extends Fragment {
                     }
                 }
 
+                // Ensure the combinedList is updated
+                combinedList.clear();
+                combinedList.addAll(classesList); // Add updated classesList to combinedList
+
                 // Notify the adapter of the new data
-                myAdapter.updateList(new ArrayList<>(classesList)); // Pass a copy of classesList to avoid direct reference
-                myAdapter.originalList = new ArrayList<>(classesList); // Reset the original list to match new data
+                myAdapter.updateList(new ArrayList<>(classesList)); // Pass a copy of combinedList to avoid direct reference
+                myAdapter.classesOriginalList = new ArrayList<>(classesList); // Reset the original list to match new data
 
                 // Update Spinner adapter with the module names
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, moduleNames);
