@@ -111,7 +111,7 @@ public class ClassesFragment extends Fragment {
             }
         });
 
-        // Create an empty list to hold clicked Days TextView values
+        // Create an empty list to hold clicked ClassMode TextView values
         List<String> currentClassMode = new ArrayList<>();
         currentClassMode.add(inPersonButton.getText().toString());
 
@@ -188,7 +188,7 @@ public class ClassesFragment extends Fragment {
             }
         });
 
-        // Create an empty list to hold clicked Days TextView values
+        // Create an empty list to hold clicked Occurence TextView values
         List<String> currentOccurMode = new ArrayList<>();
         currentOccurMode.add(onceButton.getText().toString());
 
