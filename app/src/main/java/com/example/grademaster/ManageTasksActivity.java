@@ -47,7 +47,7 @@ public class ManageTasksActivity extends AppCompatActivity {
 
         // Add fragments and their titles to the adapter
         vpAdapter.addFragment(new ManageClassesFragment(), "Classes");
-        vpAdapter.addFragment(new ExamsFragment(), "Exams");
+        vpAdapter.addFragment(new ManageExamsFragment(), "Exams");
         vpAdapter.addFragment(new AssignmentsFragment(), "Assignments");
 
         // Set the adapter for the ViewPager
