@@ -31,6 +31,7 @@ public class ManageClassesFragment extends Fragment {
     private DatabaseReference classesReference;
     private RecyclerView recyclerView;
     private MyAdapter myAdapter;
+    private ArrayList<Object> combinedList;
     private ArrayList<Classes> classesList;
     private ArrayList<String> moduleNames;
     private Spinner mySpinner;
@@ -45,9 +46,11 @@ public class ManageClassesFragment extends Fragment {
         mySpinner = view.findViewById(R.id.my_spinner);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        combinedList = new ArrayList<>();
         classesList = new ArrayList<>();
+        combinedList.addAll(classesList);
         moduleNames = new ArrayList<>();
-        myAdapter = new MyAdapter(getContext(), classesList);
+        myAdapter = new MyAdapter(getContext(), combinedList);
         recyclerView.setAdapter(myAdapter);
 
         // Get User ID
