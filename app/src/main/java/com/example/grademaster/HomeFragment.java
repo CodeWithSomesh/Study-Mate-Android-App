@@ -80,35 +80,20 @@ public class HomeFragment extends Fragment {
         classesReference = db.getReference("Users").child(userID).child("Classes");
         usersReference = db.getReference("Users").child(userID);
 
-        classesReference.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-
-                    Classes classes = dataSnapshot.getValue(Classes.class);
-                    //classesList.add(classes);
-                    classesList.add(0, classes); // Add at the beginning of the list
-
-                    // Reverse the list to display the latest classes first
-                    //Collections.reverse(classesList);
-
-                }
-
-                myAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         // Get the current date and format it
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
         String formattedDate = dateFormat.format(currentDate);
         date.setText(formattedDate);
+
+        // Get today's date in "DD/MM/YYYY" format
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+        String todayDate = dateFormat2.format(new Date());
+
+        // Get today's day in "EEE" format (abbreviated day of the week)
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEE");
+        String todayDay = dayFormat.format(new Date());
 
         // Get the current time and format it
         Calendar calendar = Calendar.getInstance();
@@ -118,14 +103,44 @@ public class HomeFragment extends Fragment {
             greetingMessage.setText("Good Morning");
         } else if (hourOfDay >= 12 && hourOfDay < 17) {
             greetingMessage.setText("Good Afternoon");
-        } else if (hourOfDay >= 17 && hourOfDay < 21) {
+        } else if (hourOfDay >= 17 && hourOfDay < 20) {
             greetingMessage.setText("Good Evening");
         } else {
             greetingMessage.setText("Good Night");
             greetingIcon.setImageResource(R.drawable.night_gif);
         }
 
+        classesReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                classesList.clear(); // Clear the list to avoid duplicate entries
 
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    Classes classes = dataSnapshot.getValue(Classes.class);
+                    //classesList.add(classes);
+                    //classesList.add(0, classes); // Add at the beginning of the list
+
+                    if (classes.getDate().equals(todayDate) || classes.getDays().contains(todayDay)) {
+                        classesList.add(0, classes); // Add only today's classes
+                    }
+
+                }
+
+                // Sort classesList by start time in ascending order
+                Collections.sort(classesList, (class1, class2) -> class1.getStartTime().compareTo(class2.getStartTime()));
+
+                // Update class count and notify adapter
+                classCount.setText(String.valueOf(classesList.size()));
+                myAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         usersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -149,8 +164,7 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long classCountFromDB = dataSnapshot.getChildrenCount();
                 //classCountFromDBRef = String.valueOf(classCountFromDB);
-                System.out.println("Number of classes: " + classCountFromDB);
-                classCount.setText(String.valueOf(classCountFromDB));
+                //classCount.setText(String.valueOf(classCountFromDB));
 
                 if (classCountFromDB > 0){
                     gradIcon.setVisibility(View.GONE);
