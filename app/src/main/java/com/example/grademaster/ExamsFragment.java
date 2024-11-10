@@ -34,7 +34,7 @@ import java.util.Objects;
 
 public class ExamsFragment extends Fragment {
 
-    private EditText moduleName, roomNum, building, onlineURL;
+    private EditText moduleName, roomNum, building, lecturerName, lecturerEmail, onlineURL;
     private TextView inPersonButton, onlineButton, cancelButton, saveButton, onlineClassURLLabel,
             dateLabel;
     private DatePicker date;
@@ -54,6 +54,8 @@ public class ExamsFragment extends Fragment {
         moduleName = view.findViewById(R.id.inputModuleName);
         roomNum = view.findViewById(R.id.inputRoom);
         building = view.findViewById(R.id.inputBuilding);
+        lecturerName = view.findViewById(R.id.inputTeacherName);
+        lecturerEmail = view.findViewById(R.id.inputTeacherEmail);
         onlineURL = view.findViewById(R.id.inputClassURL);
 
         //TextView
@@ -87,18 +89,18 @@ public class ExamsFragment extends Fragment {
         });
 
         // Create an empty list to hold clicked ClassMode TextView values
-        List<String> currentClassMode = new ArrayList<>();
-        currentClassMode.add(inPersonButton.getText().toString());
+        List<String> currentExamMode = new ArrayList<>();
+        currentExamMode.add(inPersonButton.getText().toString());
 
         // Handle Online button click
         onlineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //currentClassMode.remove(inPersonButton.getText().toString());
-                currentClassMode.clear();
-                currentClassMode.add(onlineButton.getText().toString());
-                System.out.println(currentClassMode);
+                //currentExamMode.remove(inPersonButton.getText().toString());
+                currentExamMode.clear();
+                currentExamMode.add(onlineButton.getText().toString());
+                System.out.println(currentExamMode);
 
                 // Online Button need to Switch to Light Teal background with White text color
                 ViewCompat.setBackgroundTintList(
@@ -130,12 +132,12 @@ public class ExamsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (currentClassMode.contains(onlineButton.getText().toString())) {
+                if (currentExamMode.contains(onlineButton.getText().toString())) {
 
-                    //currentClassMode.remove(onlineButton.getText().toString());
-                    currentClassMode.clear();
-                    currentClassMode.add(inPersonButton.getText().toString());
-                    System.out.println(currentClassMode);
+                    //currentExamMode.remove(onlineButton.getText().toString());
+                    currentExamMode.clear();
+                    currentExamMode.add(inPersonButton.getText().toString());
+                    System.out.println(currentExamMode);
                 }
 
                 // In Person Button need to Switch to Light Teal background with White text color
@@ -173,11 +175,13 @@ public class ExamsFragment extends Fragment {
 
 
                 //Get All Inputs
-                String currentExamModeText = currentClassMode.get(0);
+                String currentExamModeText = currentExamMode.get(0);
                 System.out.println("Current Class Mode: " + currentExamModeText);
                 String moduleNameText = moduleName.getText().toString();
                 String roomNumberText = roomNum.getText().toString();
                 String buildingText = building.getText().toString();
+                String lecturerNameText = lecturerName.getText().toString();
+                String lecturerEmailText = lecturerEmail.getText().toString();
                 String onlineExamURLText = onlineURL.getText().toString();
 
                 // Retrieve and format date
@@ -223,6 +227,7 @@ public class ExamsFragment extends Fragment {
 
                         //Add Exam Function
                         addExam(currentExamModeText, moduleNameText, roomNumberText,  buildingText,
+                                lecturerNameText, lecturerEmailText,
                                 onlineExamURLText, dateString,  startTimeString,  endTimeString,
                                 userID,  userEmail);
                     }
@@ -245,6 +250,7 @@ public class ExamsFragment extends Fragment {
                         //Add Exam Function
                         //Add Exam Function
                         addExam(currentExamModeText, moduleNameText, roomNumberText,  buildingText,
+                                lecturerNameText, lecturerEmailText,
                                 onlineExamURLText, dateString,  startTimeString,  endTimeString,
                                 userID,  userEmail);
                     }
@@ -253,9 +259,10 @@ public class ExamsFragment extends Fragment {
             }
 
             private void addExam(String currentExamModeText, String moduleNameText,
-                                  String roomNumberText, String buildingText, String onlineExamURLText,
-                                  String dateString, String startTimeString, String endTimeString,
-                                  String userID, String userEmail)
+                                 String roomNumberText, String buildingText, String lecturerNameText,
+                                 String lecturerEmailText, String onlineExamURLText,
+                                 String dateString, String startTimeString, String endTimeString,
+                                 String userID, String userEmail)
             {
 
                 // Initialize Firebase Database
@@ -268,7 +275,7 @@ public class ExamsFragment extends Fragment {
 
                 // Create a Classes object
                 Exams exam = new Exams(examID, currentExamModeText, moduleNameText, roomNumberText,
-                        buildingText, onlineExamURLText, dateString, startTimeString, endTimeString,
+                        buildingText,lecturerNameText, lecturerEmailText, onlineExamURLText, dateString, startTimeString, endTimeString,
                         userID, userEmail);
 
                 // Save data to the database

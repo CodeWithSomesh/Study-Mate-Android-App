@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,14 +21,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context context;
     private ArrayList<Object> combinedList; // Use Object to store both Classes and Exams
-    ArrayList<Classes> list;
-    ArrayList<Classes> originalList; // Add this to keep a copy of the original data
+    ArrayList<Classes> classesList;
+    ArrayList<Classes> classesOriginalList; // Add this to keep a copy of the original data
+    ArrayList<Exams> examsList;
+    ArrayList<Exams> examsOriginalList; // Add this to keep a copy of the original data
 
-    public MyAdapter(Context context, ArrayList<Object> combinedList) {
+    public MyAdapter(Context context, ArrayList<Object> combinedList, ArrayList<Classes> classesList) {
         this.context = context;
         this.combinedList = combinedList;
-        //this.list = list;
-        //this.originalList = new ArrayList<>(list); // Store a separate copy for filtering
+        this.classesList = classesList;
+        this.classesOriginalList = new ArrayList<>(classesList); // Store a separate copy for filtering
         //this.classesRecyclerViewInterface = classesRecyclerViewInterface;
     }
 
@@ -74,6 +77,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // Separate ViewHolder for Class items
     public class ClassViewHolder extends MyViewHolder {
         TextView moduleName, modeText, locationText, timeText, lecturerNameText;
+        ImageView activityIcon;
 
         public ClassViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +86,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             locationText = itemView.findViewById(R.id.locationText);
             timeText = itemView.findViewById(R.id.timeText);
             lecturerNameText = itemView.findViewById(R.id.lecturerNameText);
+            activityIcon = itemView.findViewById(R.id.activityIcon);
         }
 
         public void bind(Classes classes) {
@@ -90,27 +95,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             timeText.setText(classes.startTime + " - " + classes.endTime);
             lecturerNameText.setText(classes.lecturerName);
             locationText.setText(classes.classMode.equals("In Person") ? classes.roomNumber + ", " + classes.building : "-");
+            activityIcon.setImageResource(R.drawable.class_3d_icon);
 
-            //System.out.println("Online Class URL: " + classes.onlineClassURL);
-            //System.out.println("Occurrence: " + classes.isRepeating);
             String occurence  = classes.getIsRepeating();
 
-            Intent intent = new Intent(context, ClassesCardDetailsActivity.class);
-            intent.putExtra("classID", classes.classID != null ? classes.classID : "N/A");
-            intent.putExtra("classMode", classes.classMode != null ? classes.classMode : "N/A");
-            intent.putExtra("moduleName", classes.moduleName != null ? classes.moduleName : "N/A");
-            intent.putExtra("roomNumber", classes.roomNumber != null ? classes.roomNumber : "N/A");
-            intent.putExtra("building", classes.building != null ? classes.building : "N/A");
-            intent.putExtra("startTime", classes.startTime != null ? classes.startTime : "N/A");
-            intent.putExtra("endTime", classes.endTime != null ? classes.endTime : "N/A");
-            intent.putExtra("lecturerName", classes.lecturerName != null ? classes.lecturerName : "N/A");
-            intent.putExtra("lecturerEmail", classes.lecturerEmail != null ? classes.lecturerEmail : "N/A");
-            intent.putExtra("onlineClassURL", classes.onlineClassURL != null ? classes.onlineClassURL : "N/A");
-            intent.putExtra("occurrence", occurence);
-            intent.putExtra("days", classes.days != null ? classes.days : new ArrayList<String>());
-            intent.putExtra("date", classes.date != null ? classes.date : "N/A");
+
 
             itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(context, ClassesCardDetailsActivity.class);
+
+                intent.putExtra("classID", classes.classID != null ? classes.classID : "N/A");
+                intent.putExtra("classMode", classes.classMode != null ? classes.classMode : "N/A");
+                intent.putExtra("moduleName", classes.moduleName != null ? classes.moduleName : "N/A");
+                intent.putExtra("roomNumber", classes.roomNumber != null ? classes.roomNumber : "N/A");
+                intent.putExtra("building", classes.building != null ? classes.building : "N/A");
+                intent.putExtra("startTime", classes.startTime != null ? classes.startTime : "N/A");
+                intent.putExtra("endTime", classes.endTime != null ? classes.endTime : "N/A");
+                intent.putExtra("lecturerName", classes.lecturerName != null ? classes.lecturerName : "N/A");
+                intent.putExtra("lecturerEmail", classes.lecturerEmail != null ? classes.lecturerEmail : "N/A");
+                intent.putExtra("onlineClassURL", classes.onlineClassURL != null ? classes.onlineClassURL : "N/A");
+                intent.putExtra("occurrence", occurence);
+                intent.putExtra("days", classes.days != null ? classes.days : new ArrayList<String>());
+                intent.putExtra("date", classes.date != null ? classes.date : "N/A");
 
                 context.startActivity(intent);
             });
@@ -119,7 +125,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     // Separate ViewHolder for Exam items
     public class ExamViewHolder extends MyViewHolder {
-        TextView subjectName, examDate, location;
+        TextView moduleName, modeText, locationText, timeText, lecturerNameText;
+        ImageView activityIcon;
 
         public ExamViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -127,6 +134,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             modeText = itemView.findViewById(R.id.modeText);
             locationText = itemView.findViewById(R.id.locationText);
             timeText = itemView.findViewById(R.id.timeText);
+            lecturerNameText = itemView.findViewById(R.id.lecturerNameText);
+            activityIcon = itemView.findViewById(R.id.activityIcon);
         }
 
         public void bind(Exams exams) {
@@ -134,15 +143,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             modeText.setText(exams.examMode);
             timeText.setText(exams.startTime + " - " + exams.endTime);
             locationText.setText(exams.examMode.equals("In Person") ? exams.roomNumber + ", " + exams.building : "-");
+            lecturerNameText.setText(exams.lecturerName);
+            activityIcon.setImageResource(R.drawable.exam_3d_icon);
 
+            itemView.setOnClickListener(view -> {
+                Intent intent = new Intent(context, ExamsCardDetailsActivity.class);
 
+                intent.putExtra("examID", exams.examID != null ? exams.examID : "N/A");
+                intent.putExtra("examMode", exams.examMode != null ? exams.examMode : "N/A");
+                intent.putExtra("moduleName", exams.moduleName != null ? exams.moduleName : "N/A");
+                intent.putExtra("roomNumber", exams.roomNumber != null ? exams.roomNumber : "N/A");
+                intent.putExtra("building", exams.building != null ? exams.building : "N/A");
+                intent.putExtra("startTime", exams.startTime != null ? exams.startTime : "N/A");
+                intent.putExtra("endTime", exams.endTime != null ? exams.endTime : "N/A");
+                intent.putExtra("lecturerName", exams.lecturerName != null ? exams.lecturerName : "N/A");
+                intent.putExtra("lecturerEmail", exams.lecturerEmail != null ? exams.lecturerEmail : "N/A");
+                intent.putExtra("onlineExamURL", exams.onlineExamURL != null ? exams.onlineExamURL : "N/A");
+                intent.putExtra("date", exams.date != null ? exams.date : "N/A");
+
+                context.startActivity(intent);
+            });
         }
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView moduleName, modeText, locationText, timeText, lecturerNameText;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -187,9 +214,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     //Updates the list displayed in the RecyclerView based on the filtered list.
     public void updateList(ArrayList<Classes> filteredList) {
-        this.list.clear();
-        this.list.addAll(filteredList);
-        notifyDataSetChanged();
+        this.combinedList.clear();
+        this.combinedList.addAll(filteredList);
+        notifyDataSetChanged(); // Notify that the data has changed and the UI should be updated
     }
 
     //Filters the original list based on the module name and updates the RecyclerView with the filtered list.
@@ -197,9 +224,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         ArrayList<Classes> filteredList = new ArrayList<>();
 
         if ("All Class Modules".equals(moduleName)) {
-            filteredList.addAll(originalList); // Show all classes if no filter is selected
+            filteredList.addAll(classesOriginalList); // Show all classes if no filter is selected
         } else {
-            for (Classes classes : originalList) {
+            for (Classes classes : classesOriginalList) {
                 if (moduleName.equals(classes.getModuleName())) {
                     filteredList.add(classes);
                 }

@@ -32,9 +32,9 @@
             android:id="@+id/activityIcon"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/person_outline_24"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="-20dp"/>
+            android:src="@drawable/exam_3d_icon"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="-10dp"/>
 
 
     </LinearLayout>

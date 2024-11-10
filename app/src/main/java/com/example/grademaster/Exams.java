@@ -9,7 +9,9 @@ public class Exams {
     String moduleName;
     String roomNumber;
     String building;
-    String onlineClassURL;
+    String lecturerName;
+    String lecturerEmail;
+    String onlineExamURL;
     String date;
     String startTime;
     String endTime;
@@ -19,13 +21,17 @@ public class Exams {
     public Exams() {
     }
 
-    public Exams(String examID, String examMode, String moduleName, String roomNumber, String building, String onlineClassURL, String date, String startTime, String endTime, String userID, String userEmail) {
+    public Exams(String examID, String examMode, String moduleName, String roomNumber,
+                 String building, String lecturerName, String lecturerEmail, String onlineExamURL,
+                 String date, String startTime, String endTime, String userID, String userEmail) {
         this.examID = examID;
         this.examMode = examMode;
         this.moduleName = moduleName;
         this.roomNumber = roomNumber;
         this.building = building;
-        this.onlineClassURL = onlineClassURL;
+        this.lecturerName = lecturerName;
+        this.lecturerEmail = lecturerEmail;
+        this.onlineExamURL = onlineExamURL;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -73,12 +79,28 @@ public class Exams {
         this.building = building;
     }
 
-    public String getOnlineClassURL() {
-        return onlineClassURL;
+    public String getLecturerName() {
+        return lecturerName;
     }
 
-    public void setOnlineClassURL(String onlineClassURL) {
-        this.onlineClassURL = onlineClassURL;
+    public void setLecturerName(String lecturerName) {
+        this.lecturerName = lecturerName;
+    }
+
+    public String getLecturerEmail() {
+        return lecturerEmail;
+    }
+
+    public void setLecturerEmail(String lecturerEmail) {
+        this.lecturerEmail = lecturerEmail;
+    }
+
+    public String getOnlineClassURL() {
+        return onlineExamURL;
+    }
+
+    public void setOnlineClassURL(String onlineExamURL) {
+        this.onlineExamURL = onlineExamURL;
     }
 
     public String getDate() {

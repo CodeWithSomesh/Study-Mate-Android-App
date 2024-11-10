@@ -1,15 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExamsFragment"
-    android:background="@color/black">
+    tools:context=".UpdateExamActivity"
+    android:layout_marginTop="40dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#115e59">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/addNewTextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="68dp"
+            android:fontFamily="@font/inter_18pt_semibold"
+            android:gravity="center"
+            android:text="Update Exam Details"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000">
+        android:background="#000000"
+        android:layout_marginTop="55dp">
 
         <!-- Wrapping content inside a LinearLayout -->
         <LinearLayout
@@ -348,7 +383,7 @@
                     android:textColor="#FFFFFF" />
 
                 <TextView
-                    android:id="@+id/saveButton"
+                    android:id="@+id/updateButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -356,7 +391,7 @@
                     android:gravity="center"
                     android:fontFamily="@font/inter_18pt_semibold"
                     android:textSize="18sp"
-                    android:text="Add Exam"
+                    android:text="Update Exam"
                     android:backgroundTint="@color/light_teal"
                     android:background="@drawable/button_background"
                     android:textColor="#FFFFFF"
@@ -367,4 +402,4 @@
 
     </ScrollView>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

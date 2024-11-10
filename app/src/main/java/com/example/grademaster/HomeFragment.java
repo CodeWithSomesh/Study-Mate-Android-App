@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
         combinedList = new ArrayList<>();
         classesList = new ArrayList<>();
         examsList = new ArrayList<>();
-        myAdapter = new MyAdapter(getContext(), combinedList);
+        myAdapter = new MyAdapter(getContext(), combinedList, classesList);
         recyclerView.setAdapter(myAdapter);
 
         // Get the current date and format it
