@@ -26,11 +26,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     ArrayList<Exams> examsList;
     ArrayList<Exams> examsOriginalList; // Add this to keep a copy of the original data
 
-    public MyAdapter(Context context, ArrayList<Object> combinedList, ArrayList<Classes> classesList) {
+    public MyAdapter(Context context, ArrayList<Object> combinedList, ArrayList<Classes> classesList,
+                     ArrayList<Exams> examsList) {
         this.context = context;
         this.combinedList = combinedList;
         this.classesList = classesList;
+        this.examsList = examsList;
         this.classesOriginalList = new ArrayList<>(classesList); // Store a separate copy for filtering
+        this.examsOriginalList = new ArrayList<>(examsList); // Store a separate copy for filtering
         //this.classesRecyclerViewInterface = classesRecyclerViewInterface;
     }
 
@@ -212,15 +215,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    //Updates the list displayed in the RecyclerView based on the filtered list.
-    public void updateList(ArrayList<Classes> filteredList) {
+    //Updates the Classes list displayed in the RecyclerView based on the filtered list.
+    public void updateClassesList(ArrayList<Classes> filteredList) {
         this.combinedList.clear();
         this.combinedList.addAll(filteredList);
         notifyDataSetChanged(); // Notify that the data has changed and the UI should be updated
     }
 
-    //Filters the original list based on the module name and updates the RecyclerView with the filtered list.
-    public void filterByModuleName(String moduleName) {
+    //Filters the original Classes list based on the module name and updates the RecyclerView with the filtered list.
+    public void filterClassesByModuleName(String moduleName) {
         ArrayList<Classes> filteredList = new ArrayList<>();
 
         if ("All Class Modules".equals(moduleName)) {
@@ -234,6 +237,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
 
         // Update the RecyclerView with the filtered list
-        updateList(filteredList);
+        updateClassesList(filteredList);
+    }
+
+    //Updates the Exams list displayed in the RecyclerView based on the filtered list.
+    public void updateExamsList(ArrayList<Exams> filteredList) {
+        this.combinedList.clear();
+        this.combinedList.addAll(filteredList);
+        notifyDataSetChanged(); // Notify that the data has changed and the UI should be updated
+    }
+
+    //Filters the original Exams list based on the module name and updates the RecyclerView with the filtered list.
+    public void filterExamsByModuleName(String moduleName) {
+        ArrayList<Exams> filteredList = new ArrayList<>();
+
+        if ("All Exam Modules".equals(moduleName)) {
+            filteredList.addAll(examsOriginalList); // Show all classes if no filter is selected
+        } else {
+            for (Exams exams : examsOriginalList) {
+                if (moduleName.equals(exams.getModuleName())) {
+                    filteredList.add(exams);
+                }
+            }
+        }
+
+        // Update the RecyclerView with the filtered list
+        updateExamsList(filteredList);
     }
 }

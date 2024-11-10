@@ -33,6 +33,7 @@ public class ManageClassesFragment extends Fragment {
     private MyAdapter myAdapter;
     private ArrayList<Object> combinedList;
     private ArrayList<Classes> classesList;
+    private ArrayList<Exams> examsList;
     private ArrayList<String> moduleNames;
     private Spinner mySpinner;
 
@@ -48,9 +49,11 @@ public class ManageClassesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         combinedList = new ArrayList<>();
         classesList = new ArrayList<>();
+        examsList = new ArrayList<>();
         combinedList.addAll(classesList);
+        combinedList.addAll(examsList);
         moduleNames = new ArrayList<>();
-        myAdapter = new MyAdapter(getContext(), combinedList, classesList);
+        myAdapter = new MyAdapter(getContext(), combinedList, classesList, examsList);
         recyclerView.setAdapter(myAdapter);
 
         // Get User ID
@@ -84,7 +87,7 @@ public class ManageClassesFragment extends Fragment {
                 combinedList.addAll(classesList); // Add updated classesList to combinedList
 
                 // Notify the adapter of the new data
-                myAdapter.updateList(new ArrayList<>(classesList)); // Pass a copy of combinedList to avoid direct reference
+                myAdapter.updateClassesList(new ArrayList<>(classesList)); // Pass a copy of combinedList to avoid direct reference
                 myAdapter.classesOriginalList = new ArrayList<>(classesList); // Reset the original list to match new data
 
                 // Update Spinner adapter with the module names
@@ -103,7 +106,7 @@ public class ManageClassesFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedModule = parent.getItemAtPosition(position).toString();
-                myAdapter.filterByModuleName(selectedModule);
+                myAdapter.filterClassesByModuleName(selectedModule);
             }
 
             @Override
