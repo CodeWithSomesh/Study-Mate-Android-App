@@ -52,7 +52,7 @@ public class ExamsCardDetailsActivity extends AppCompatActivity {
         String endTime = getIntent().getStringExtra("endTime");
         String lecturerName = getIntent().getStringExtra("lecturerName");
         String lecturerEmail = getIntent().getStringExtra("lecturerEmail");
-        String onlineClassURL = getIntent().getStringExtra("onlineClassURL");
+        String onlineExamURL = getIntent().getStringExtra("onlineExamURL");
         String date = getIntent().getStringExtra("date");
         ImageView backButton = findViewById(R.id.backButton);
 
@@ -96,7 +96,7 @@ public class ExamsCardDetailsActivity extends AppCompatActivity {
         timeText.setText(startTime + " - " + endTime);
         lecturerNameText.setText(lecturerName);
         lecturerEmailText.setText(lecturerEmail);
-        onlineExamURLText.setText(onlineClassURL);
+        onlineExamURLText.setText(onlineExamURL);
         if (minutes <= 0){
             durationText.setText(hours + " hours");
         } else {
@@ -113,7 +113,7 @@ public class ExamsCardDetailsActivity extends AppCompatActivity {
             onlineClassLayout.setVisibility(View.GONE);
         } else if (classModeText.getText().toString().equals("Online")) {
             onlineClassLayout.setVisibility(View.VISIBLE);
-            onlineExamURLText.setText(onlineClassURL);
+            onlineExamURLText.setText(onlineExamURL);
             //System.out.println(onlineExamURLText.getText().toString());
         }
 

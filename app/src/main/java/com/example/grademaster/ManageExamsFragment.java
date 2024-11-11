@@ -71,7 +71,7 @@ public class ManageExamsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 examsList.clear();
                 moduleNames.clear();
-                moduleNames.add("All Exam Modules");
+                //moduleNames.add("All Exam Modules");
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Exams exams = dataSnapshot.getValue(Exams.class);
@@ -83,6 +83,8 @@ public class ManageExamsFragment extends Fragment {
                         }
                     }
                 }
+
+                moduleNames.add(0, "All Exam Modules (Total Exams: " + examsList.size() + ")");
 
                 // Ensure the combinedList is updated
                 combinedList.clear();
@@ -108,7 +110,7 @@ public class ManageExamsFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedModule = parent.getItemAtPosition(position).toString();
-                myAdapter.filterClassesByModuleName(selectedModule);
+                myAdapter.filterExamsByModuleName(selectedModule);
             }
 
             @Override

@@ -201,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     //Add User and Send Verification Email
                     assert firebaseUser != null;
-                    Users user = new Users(nameText, emailText, false, passwordText);
+                    Users user = new Users(userID, nameText, emailText, false, passwordText);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
                     reference.child(userID).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

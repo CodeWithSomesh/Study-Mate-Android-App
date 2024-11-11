@@ -23,7 +23,7 @@
             android:paddingVertical="10dp"
             android:layout_marginLeft="15dp"
             android:gravity="left"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="3dp"
             android:text="Object Oriented Programming"
             android:textColor="@color/white"
             android:textSize="28sp" />
@@ -34,7 +34,7 @@
             android:layout_height="120dp"
             android:src="@drawable/class_3d_icon"
             android:layout_marginTop="0dp"
-            android:layout_marginLeft="-20dp"/>
+            android:layout_marginLeft="-15dp"/>
 
 
     </LinearLayout>

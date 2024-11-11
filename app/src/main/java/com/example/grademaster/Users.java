@@ -3,6 +3,7 @@ package com.example.grademaster;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Users {
+    private String userID;
     private String fullName;
     private String email;
     private boolean isEmailVerified;
@@ -13,7 +14,8 @@ public class Users {
     }
 
     // Parameterized constructor
-    public Users(String fullName, String email, boolean isEmailVerified, String password) {
+    public Users(String userID, String fullName, String email, boolean isEmailVerified, String password) {
+        this.userID = userID;
         this.fullName = fullName;
         this.email = email;
         this.isEmailVerified = isEmailVerified;
@@ -31,6 +33,14 @@ public class Users {
     }
 
     // Getters and Setters
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
     public String getFullName() {
         return fullName;
     }

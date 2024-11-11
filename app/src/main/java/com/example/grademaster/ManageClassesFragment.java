@@ -70,17 +70,19 @@ public class ManageClassesFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classesList.clear();
                 moduleNames.clear();
-                moduleNames.add("All Class Modules");
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Classes classes = dataSnapshot.getValue(Classes.class);
                     if (classes != null) {
                         classesList.add(classes);
                         if (classes.getModuleName() != null) {
+
                             moduleNames.add(classes.getModuleName());
                         }
                     }
                 }
+
+                moduleNames.add(0, "All Class Modules (Total Classes: " + classesList.size() + ")");
 
                 // Ensure the combinedList is updated
                 combinedList.clear();

@@ -23,7 +23,7 @@
             android:paddingVertical="10dp"
             android:layout_marginLeft="15dp"
             android:gravity="left"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="3dp"
             android:text="Programming For Developers"
             android:textColor="@color/white"
             android:textSize="28sp" />

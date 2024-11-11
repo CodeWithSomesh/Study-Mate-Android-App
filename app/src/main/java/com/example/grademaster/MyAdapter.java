@@ -226,7 +226,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void filterClassesByModuleName(String moduleName) {
         ArrayList<Classes> filteredList = new ArrayList<>();
 
-        if ("All Class Modules".equals(moduleName)) {
+        if (moduleName.contains("All Class Modules")) {
             filteredList.addAll(classesOriginalList); // Show all classes if no filter is selected
         } else {
             for (Classes classes : classesOriginalList) {
@@ -251,7 +251,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void filterExamsByModuleName(String moduleName) {
         ArrayList<Exams> filteredList = new ArrayList<>();
 
-        if ("All Exam Modules".equals(moduleName)) {
+        if (moduleName.contains("All Exam Modules")) {
             filteredList.addAll(examsOriginalList); // Show all classes if no filter is selected
         } else {
             for (Exams exams : examsOriginalList) {
